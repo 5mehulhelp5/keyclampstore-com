@@ -1,0 +1,537 @@
+<?php
+use Magento\Framework\Escaper;
+ /**
+  * @var Escaper $escaper
+  */
+?>
+<div x-data="initComponent()"
+        x-init="calculatePrice()"
+		x-bind="eventListeners"
+></div>
+<script>
+"use strict";
+
+function initComponent() {
+	function ceil(a) {
+			return Math.ceil(a)
+	}
+
+	function floor(a) {
+		return Math.floor(a)
+	}
+
+	function round(a) {
+		return Math.round(a)
+	}
+
+    var productData =  <?= /* @noEscape */ $block->getJson() ?>;
+    return {
+		finalPrice:false,
+		basePrice: false,
+		eventListeners: {
+			['@update-custom-option-active-formula-price.window']() {
+				this.updateCustomOptionActiveFormulaPrice();
+			},
+            ['@update-product-final-price.window'](event) {
+                this.calculatePrice();
+                window.dispatchEvent(new CustomEvent("update-custom-option-active-formula-price", {}));
+            },
+        },
+
+		updateCustomOptionActiveFormulaPrice(){
+			var finalPriceObj = document.querySelector('.product-info-main .price-container .final-price .price');
+				var basePriceObj = document.querySelector('.product-info-main .price-container .normal-price [data-price-type=basePrice].price-wrapper .price');
+				if(this.finalPrice > 0){
+					finalPriceObj.innerText = hyva.formatPrice(this.finalPrice);
+				}
+				if(this.basePrice > 0){
+					basePriceObj.innerText = hyva.formatPrice(this.basePrice);
+				}
+		},
+        calculatePrice(){
+            var self = this;
+            var labels = productData.allLabel;
+			var custValue = productData.allValue;
+			var minCheck = productData.min;
+			var maxCheck = productData.max;
+			var maxMessage = productData.maxError;
+			var minMessage = productData.minError;
+			var extraPriceFormula = productData.extraFormula;
+			var addQty = productData.addQty;
+			var proPrice = productData.proPrice;
+			var taxVat = productData.taxVat;
+			var isExcludingPrice = productData.isExcludingPrice;
+			var qty = 1;
+			
+			var form = document.querySelector("#product_addtocart_form");
+			form.setAttribute('x-data', 'hyva.formValidation($el)');
+			form.setAttribute('x-on:submit', 'onSubmit');
+
+			if(productData.enable == 1){
+					var equation = productData.finalEquation;
+					equation = equation.trim().toLowerCase();
+					self.finalPrice = self.getFinalPrice(productData.options, equation, labels, minCheck, maxCheck, maxMessage, minMessage, extraPriceFormula, qty, addQty, custValue, proPrice);
+			}
+
+			[...document.querySelectorAll('.product-custom-option')].forEach(el => el.addEventListener("change", function(){
+				if(productData.enable == 1){
+					var equation = productData.finalEquation;
+					equation = equation.trim().toLowerCase();
+					self.finalPrice = self.getFinalPrice(productData.options, equation, labels, minCheck, maxCheck, maxMessage, minMessage, extraPriceFormula, qty, addQty, custValue, proPrice);
+				}
+				if(taxVat && isExcludingPrice != true){
+					self.basePrice= self.finalPrice;
+					self.finalPrice= self.finalPrice + ((self.finalPrice * taxVat)/100);
+				}
+				window.dispatchEvent(new CustomEvent("update-custom-option-active-formula-price", {}));
+
+			}));
+
+            document.querySelector('[name="qty"]').addEventListener('change', function(event){
+				if(productData.enable == 1){
+					var equation = productData.finalEquation;
+					equation = equation.trim().toLowerCase();
+					qty = this.value;
+                    self.finalPrice = self.getFinalPrice(productData.options, equation, labels, minCheck, maxCheck, maxMessage, minMessage, extraPriceFormula, qty, addQty, custValue, proPrice);
+				}
+				if(taxVat && isExcludingPrice != true){
+					self.basePrice=self.finalPrice;
+					self.finalPrice= self.finalPrice + ((self.finalPrice * taxVat)/100);
+				}
+				window.dispatchEvent(new CustomEvent("update-custom-option-active-formula-price", {}));
+			}, false);
+        },
+
+		getFinalPrice(alloptions, equation, labels, minCheck, maxCheck, maxMessage, minMessage, extraPriceFormula, getQty, addQty, custValue, proPrice) {
+			var fixQty = 1;
+			var finalPrice = 0;
+			var msg = '';
+			var maxMsg = '';
+			var extraFormulas = [];
+			var extraCount = 0;
+			var extraFormulasEquation = [];
+			var extraFormulasEquationValue = [];
+			var extraFormulasEq = [];
+			var oldcondition = '';
+			var extraval = '';
+			var finalPrices = '';
+            for (const [i, valuess] of Object.entries(alloptions)) {
+				var value = '';
+				var oLabel = alloptions[i].label;
+				oLabel = oLabel.trim().toLowerCase();
+				
+				var checkField =undefined;
+				if (alloptions[i].type == 'checkbox' || alloptions[i].type == 'multiple') {
+					checkField = '[name="options[' + alloptions[i].id+'][]"]';
+				}else{
+					checkField = '[name="options[' + alloptions[i].id+']"]';
+				}
+
+				var checkboxFields = document.querySelectorAll(checkField);
+                    if(checkboxFields){
+						for (const [i, valueee] of Object.entries(checkboxFields)) {
+							let checkId = checkboxFields[i].id;
+							let required = checkboxFields[i].hasAttribute('data-required');
+							if (required){
+								let vldata = checkboxFields[i].getAttribute('validate');
+								let newObj = {"required": true};
+								vldata = { ...vldata, ...newObj}; //merged both in data variable
+								document.getElementById(checkId).setAttribute("data-validate", JSON.stringify(vldata));
+								document.getElementById(checkId).setAttribute("data-msg-required", "<?= $escaper
+                           ->escapeJs(__("Please select one of the options.")) ?>");
+							}
+						}
+					}
+
+				if (alloptions[i].type == 'field' || alloptions[i].type == 'area') {
+					var textOptionId = '#options_' + alloptions[i].id + '_text';
+					var checkLabel = '';
+					if(oLabel in labels){
+						var checkLabel = '{'+labels[oLabel]+'}';
+						var csku = "{"+labels[oLabel]+"}";
+						csku = csku.toLowerCase();
+						checkLabel = checkLabel.toLowerCase();
+						value = document.querySelector(textOptionId).value;
+						if(checkLabel in minCheck){
+							var vldata = document.querySelector(textOptionId).getAttribute('validate');
+							if (!vldata || !("validate-min-value-col" in vldata)) {
+								var newObj = {"validate-min-value-col": true};
+                                vldata = { ...vldata, ...newObj}; //merged both in data variable
+								document.querySelector(textOptionId).setAttribute("data-validate", JSON.stringify(vldata));
+							}
+
+							var values = document.querySelector(textOptionId).value;
+							var minVal = minCheck[checkLabel];
+							var msg = minMessage;
+                            validateNumber(textOptionId,vldata);
+						}
+						if(checkLabel in maxCheck){
+							if (!vldata || !("validate-max-value-col" in vldata)) {
+								var newObj = {"validate-max-value-col": true};
+								vldata = { ...vldata, ...newObj}; //merged both in data variable
+								document.querySelector(textOptionId).setAttribute("data-validate", JSON.stringify(vldata));
+							}
+							var values = document.querySelector(textOptionId).value;
+							var maxVal = maxCheck[checkLabel];
+							var maxMsg = maxMessage;
+                            validateNumber(textOptionId,vldata);
+						}
+					} else {
+						var checkLabel = '{'+oLabel+'}';
+						var csku = "{"+oLabel+"}";
+						csku = csku.toLowerCase();
+						checkLabel = checkLabel.toLowerCase();
+						value = document.querySelector(textOptionId).value;
+						if(checkLabel in minCheck){
+							var vldata = document.querySelector(textOptionId).getAttribute('validate');
+							if (!vldata || !("validate-min-value-col" in vldata)) {
+								var newObj = {"validate-min-value-col": true};
+								vldata = { ...vldata, ...newObj}; //merged both in data variable
+								document.querySelector(textOptionId).setAttribute("data-validate", JSON.stringify(vldata));
+							}
+
+							var values = document.querySelector(textOptionId).value;
+							var minVal = minCheck[checkLabel];
+							var msg = minMessage;
+                            validateNumber(textOptionId,vldata);
+						}
+						if(checkLabel in maxCheck){
+							if (!vldata || !("validate-max-value-col" in vldata)) {
+								var newObj = {"validate-max-value-col": true};
+								vldata = { ...vldata, ...newObj}; //merged both in data variable
+								document.querySelector(textOptionId).setAttribute("data-validate", JSON.stringify(vldata));
+							}
+							var values = document.querySelector(textOptionId).value;
+							var maxVal = maxCheck[checkLabel];
+							var maxMsg = maxMessage;
+                            validateNumber(textOptionId,vldata);
+						}
+					}
+				}
+
+				if (alloptions[i].type == 'drop_down') {
+					var dropId = '#options_' + alloptions[i].id;
+                    const myDropdown =  document.querySelector(dropId);
+                    const selectedIndex = myDropdown.selectedIndex;
+                    if (selectedIndex !== -1) {
+                        var dropValue = document.querySelector(dropId).value;
+                        var droLabel = myDropdown.options[selectedIndex].textContent;
+                        droLabel = droLabel.split('+$');
+                        droLabel = droLabel[0].split('+ $');
+					    droLabel = "{"+droLabel[0].trim().toLowerCase()+"}";
+                    }else {
+						var dropValue = '';
+                        var droLabel = '';
+                        droLabel = droLabel.split('+$');
+                        droLabel = droLabel[0].split('+ $');
+					    droLabel = "{"+droLabel[0].trim().toLowerCase()+"}";
+					}
+					
+					if(selectedIndex !== -1 && oLabel in labels){
+						var csku = "{"+labels[oLabel]+"}";
+						csku = csku.toLowerCase();
+						if(dropValue){
+							if(droLabel in custValue){
+								value = custValue[droLabel];
+							} else {
+								value = document.querySelector(dropId).options[selectedIndex].dataset.priceAmount;
+							}
+						}
+					} else {
+						var csku = "{"+oLabel+"}";
+						csku = csku.toLowerCase();
+						if(dropValue){
+							if(droLabel in custValue){
+								value = custValue[droLabel];
+							} else {
+								value = document.querySelector(dropId).options[selectedIndex].dataset.priceAmount;
+							}
+						}
+					}
+				}
+
+				if (alloptions[i].type == 'multiple') {
+					var multiId = '#options_' + alloptions[i].id;
+                    const multiDropdown =  document.querySelector(multiId);
+					var multiOption = multiDropdown.selectedOptions;
+					
+					var newValue = 0;
+					var csku = "";
+                    for (const [i, valuess] of Object.entries(multiOption)) {
+						var multiLabel = multiOption[i].text;
+						multiLabel = multiLabel.split('+ $');
+						multiLabel = multiLabel[0].split('+$');
+						multiLabel = "{"+multiLabel[0].trim().toLowerCase()+"}";
+						var multivalue = multiOption[i].value;
+						if(oLabel in labels){
+							csku = "{"+labels[oLabel]+"}";
+							csku = csku.toLowerCase();
+							if(multiLabel in custValue){
+								var val = custValue[multiLabel];
+								newValue = parseFloat(newValue)+parseFloat(val);
+							} else {
+								var val = document.querySelector('[value="'+multivalue+'"]').getAttribute('data-price-amount');
+								newValue = parseFloat(newValue)+parseFloat(val);
+							}
+						} else {
+							csku = "{"+oLabel+"}";
+							csku = csku.toLowerCase();
+							if(multiLabel in custValue){
+								var val = custValue[multiLabel];
+								newValue = parseFloat(newValue)+parseFloat(val);
+							} else {
+								var val = document.querySelector('[value="'+multivalue+'"]').getAttribute('data-price-amount');
+								newValue = parseFloat(newValue)+parseFloat(val);
+
+							}
+						}
+					};
+					value = newValue;
+				}
+
+				if (alloptions[i].type == 'checkbox') {
+					var checkField = '[name="options[' + alloptions[i].id+'][]"]';
+					var checkValue = document.querySelectorAll(checkField+":checked");
+					var newValue = 0;
+					var csku = "";
+
+                    if(checkValue){
+						for (const [i, valueee] of Object.entries(checkValue)) {
+							var checkId = checkValue[i].id;
+							var checkLabel = document.querySelector('[for="'+checkId+'"]').textContent;
+							checkLabel = checkLabel.split('+');
+
+							checkLabel = "{"+checkLabel[0].trim().toLowerCase()+"}";
+							var checkvalue = checkValue[i].value;
+
+							if(oLabel in labels){
+								csku = "{"+labels[oLabel]+"}";
+								csku = csku.toLowerCase();
+								if(checkLabel in custValue){
+									var val = custValue[checkLabel];
+									newValue = parseFloat(newValue)+parseFloat(val);
+								} else {
+									var val = document.querySelector('[value="'+checkvalue+'"]').getAttribute('data-price-amount');
+									newValue = parseFloat(newValue)+parseFloat(val);
+								}
+							} else {
+								csku = "{"+oLabel+"}";
+								csku = csku.toLowerCase();
+								if(checkLabel in custValue){
+									var val = custValue[checkLabel];
+									newValue = parseFloat(newValue)+parseFloat(val);
+								} else {
+									var val = document.querySelector('[value="'+checkvalue+'"]').getAttribute('data-price-amount');
+									newValue = parseFloat(newValue)+parseFloat(val);
+
+								}
+							}
+						};
+					}
+					value = newValue;
+				}
+
+
+				if (alloptions[i].type == 'radio') {
+					var radioField = '[name="options[' + alloptions[i].id+']"]';
+					const radioSelector = document.querySelector(radioField+":checked");
+					if(radioSelector){
+						var radioValue = radioSelector.value;
+						var radioId = radioSelector.getAttribute("id");
+						if(radioId) {
+							var radioLabel = document.querySelector('[for="'+radioId+'"]').textContent;
+							radioLabel = radioLabel.split('+');
+
+							radioLabel = "{"+radioLabel[0].trim().toLowerCase()+"}";
+
+							if(oLabel in labels){
+
+								var csku = "{"+labels[oLabel]+"}";
+								csku = csku.toLowerCase();
+								if(radioValue){
+									if(radioLabel in custValue){
+										value = custValue[radioLabel];
+									} else {
+										value = document.querySelector(radioField+":checked").getAttribute('data-price-amount');
+									}
+								}
+							} else {
+								var csku = "{"+oLabel+"}";
+								csku = csku.toLowerCase();
+								if(radioValue){
+									if(radioLabel in custValue){
+										value = custValue[radioLabel];
+									} else {
+										value = document.querySelector(radioField+":checked").getAttribute('data-price-amount');
+									}
+								}
+							}
+
+						}
+					}
+					
+					
+
+				}
+
+				if(value > 0){
+
+					if(finalPrice == 0){
+						finalPrice = equation.replace(new RegExp(csku, 'g'), value);
+					}else{
+						finalPrice = finalPrice.replace(new RegExp(csku, 'g'), value);
+					}
+					 if(extraPriceFormula){
+						var extraPriceFormulas = extraPriceFormula.split(';');
+						console.log('extraPriceFormulas'+extraPriceFormulas);
+						if(extraCount == 0){
+                            for (let [arrKey, arrValue] of Object.entries(extraPriceFormulas)) {
+								arrValue = arrValue.toLowerCase();
+								arrValue = arrValue.split('=>');
+								extraFormulasEq[arrValue[0]]=arrValue[0];
+								extraFormulasEquation[arrValue[0]]=arrValue[0];
+								extraFormulasEquationValue[arrValue[1]]=arrValue[1];
+							};
+							extraCount = 1;
+						 }
+                        for (let [arrKey, arrValue] of Object.entries(extraPriceFormulas)) {
+							arrValue = arrValue.toLowerCase();
+							arrValue = arrValue.split('=>');
+							if(extraFormulasEq[arrValue[0]] == arrValue[0]){
+								if (arrValue[0].indexOf(csku) > -1 || arrValue[1].indexOf(csku) > -1) {
+									if(arrValue[0].indexOf(csku) > -1){
+										oldcondition = extraFormulasEquation[arrValue[0]].replace(new RegExp(csku, 'g'), value);
+									}else{
+										oldcondition = extraFormulasEquation[arrValue[0]];
+									}
+
+									if(arrValue[1].indexOf(csku) > -1){
+										extraval = extraFormulasEquationValue[arrValue[1]].replace(new RegExp(csku, 'g'), value);
+									}else{
+										extraval = extraFormulasEquationValue[arrValue[1]];
+									}
+
+									extraFormulasEquation[arrValue[0]] = oldcondition;
+									extraFormulasEquationValue[arrValue[1]] = extraval;
+									 condition = oldcondition.replace(new RegExp("{[a-zA-Z0-9_]+}", "gi"), 0);
+									 condition = eval(condition);
+									if(condition == true){
+										extraFormulas[arrValue[0]] = extraFormulasEquationValue[arrValue[1]];
+									 } else {
+										 delete extraFormulas[arrValue[0]];
+									 }
+								 }
+
+								 if(extraFormulasEquation[arrValue[0]].search(/[a-zA-Z]/i) == -1){
+									 var condition = extraFormulasEquation[arrValue[0]];
+									 condition = eval(condition);
+									if(condition == true){
+										extraFormulas[arrValue[0]] = extraFormulasEquationValue[arrValue[1]];
+									 } else {
+										 delete extraFormulas[arrValue[0]];
+									 }
+								 }
+							}
+						};
+					}
+				}
+
+			};
+			
+            var changePrice = "{price}";
+			if(finalPrice == 0){
+				finalPrice = equation.replace(new RegExp(changePrice, 'g'), proPrice);
+			}else{
+				finalPrice = finalPrice.replace(new RegExp(changePrice, 'g'), proPrice);
+			}
+
+			hyva.formValidation.addRule('validate-min-value-col', function(currValue, options, field, context) {
+				var element = field.element;
+				var currId = element.id;
+				currId = currId.replace('options_', '');
+				currId = currId.replace('_text', '');
+				var label = alloptions[currId]['label'];
+				label = label.trim().toLowerCase();
+				var labelCheck = "";
+				if(label in labels){
+					labelCheck = '{'+labels[label]+'}';
+				} else {
+					labelCheck = '{'+label+'}';
+				}
+				labelCheck = labelCheck.trim().toLowerCase();
+				var minVal = minCheck[labelCheck];
+				msg = minMessage.replace('{min}', minVal);
+				msg = msg.replace('{title}', label);
+				if(parseFloat(currValue) < parseFloat(minVal)){
+					return hyva.str(msg);
+				}
+				return true;
+			});
+
+            hyva.formValidation.addRule("validate-number-col", (currValue, options, field, context) => {
+				var element = field.element;
+                var currId = element.id;
+                if(isNaN(currValue)){
+                    return hyva.str("Please enter numeric value");
+                }
+                return true;
+            });
+
+            function validateNumber(textOptionId,vldata){
+                if (!("validate-number-col" in vldata)) {
+                    var newObj = {"validate-number-col": true};
+                    vldata = { ...vldata, ...newObj}; //merged both in data variable
+                    document.querySelector(textOptionId).setAttribute("data-validate", JSON.stringify(vldata));
+                }
+            }
+
+            hyva.formValidation.addRule("validate-max-value-col", (currValue, options, field, context) => {
+				var element = field.element;
+				var currId = element.id;
+				currId = currId.replace('options_', '');
+				currId = currId.replace('_text', '');
+				var label = alloptions[currId]['label'];
+				label = label.trim().toLowerCase();
+				var labelCheck = "";
+				if(label in labels){
+					labelCheck = '{'+labels[label]+'}';
+				} else {
+					labelCheck = '{'+label+'}';
+				}
+				labelCheck = labelCheck.trim().toLowerCase();
+				var maxVal = maxCheck[labelCheck];
+				maxMsg = maxMessage.replace('{max}', maxVal);
+				maxMsg = maxMsg.replace('{title}', label);
+				if(parseFloat(currValue) > parseFloat(maxVal)){
+					return hyva.str(maxMsg);
+				}
+				return true;
+			});
+
+			
+			finalPrice = finalPrice.replace(new RegExp("{[a-zA-Z0-9_.\"'!:*?()/ /g]+}", "gi"), 0);
+			finalPrice = eval(finalPrice);
+			if(finalPrice > 0){
+				if(Object.keys(extraFormulas).length > 0){
+					Object.keys(extraFormulas).forEach(function(extraEqkey,  extraEqValue) {
+
+						if(typeof this[extraEqkey]  !== "undefined") {
+							var extraEqFinalPriceCalc = this[extraEqkey].replace('{newprice}',finalPrice);
+							extraEqFinalPriceCalc = extraEqFinalPriceCalc.replace(new RegExp("{[a-zA-Z0-9_]+}", "gi"), 0);
+							var extraEqFinalPrice = eval(extraEqFinalPriceCalc);
+
+							finalPrice = finalPrice+'+'+extraEqFinalPrice;
+						}
+						finalPrice = eval(finalPrice);
+					}, extraFormulas);
+				}
+			}
+			finalPrices = Number(Math.round(finalPrice+'e2')+'e-2');
+			if(addQty > 0){
+				finalPrices = eval(finalPrices*getQty);
+			}
+			return finalPrices;
+		}
+  }
+}
+</script>

@@ -1,0 +1,106 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+namespace Mageplaza\SecurityPro\Plugin\Adminhtml;
+
+use Closure;
+use Magento\Framework\Api\Search\DocumentInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Ui\Model\Export\MetadataProvider;
+use Mageplaza\SecurityPro\Helper\Data;
+
+/**
+ * Class ExportCsv
+ * @package Mageplaza\SecurityPro\Plugin\Adminhtml
+ */
+class ExportCsv
+{
+    /**
+     * @var Data
+     */
+    protected $helperData;
+
+    /**
+     * @var RequestInterface
+     */
+    protected $request;
+
+    /**
+     * ExportCsv constructor.
+     *
+     * @param Data $helperData
+     * @param RequestInterface $request
+     */
+    public function __construct(
+        Data $helperData,
+        RequestInterface $request
+    ) {
+        $this->helperData = $helperData;
+        $this->request    = $request;
+    }
+
+    /**
+     * @param MetadataProvider $subject
+     * @param Closure $proceed
+     * @param DocumentInterface $document
+     * @param array $fields
+     * @param array $options
+     *
+     * @return array|mixed
+     */
+    public function aroundGetRowData(
+        MetadataProvider $subject,
+        Closure $proceed,
+        DocumentInterface $document,
+        $fields,
+        $options
+    ) {
+        $namespace  = $this->request->getParam('namespace');
+        $namespaces = [
+            'mageplaza_security_filechange_listing',
+            'mageplaza_security_actionlog_listing'
+        ];
+
+        if ($this->helperData->isEnabled() && in_array($namespace, $namespaces, true)) {
+            $row = [];
+            foreach ($fields as $column) {
+                if (isset($options[$column])) {
+                    $key = $document->getCustomAttribute($column)->getValue();
+                    if (isset($options[$column][$key])) {
+                        $row[] = $options[$column][$key];
+                    } else {
+                        $row[] = '';
+                    }
+                } else {
+                    $value = $document->getCustomAttribute($column)->getValue();
+                    if ($column === 'time') {
+                        $value = $this->helperData->convertToLocaleTime($value);
+                    }
+                    $row[] = $value;
+                }
+            }
+
+            return $row;
+        }
+
+        return $proceed($document, $fields, $options);
+    }
+}

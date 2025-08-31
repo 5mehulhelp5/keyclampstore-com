@@ -1,0 +1,36 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$order = $block->getOrder() ;
+//$order = $objectManager->create('\Magento\Sales\Model\Order')->loadByIncrementId($this->_order->getIncrementId()); 
+$_checkoutSession = $objectManager->create('\Magento\Checkout\Model\Session'); 
+$_fee = $objectManager->create('\Its\Addfee\Block\Sales\Order\Fee'); 
+if($_checkoutSession->getIsSetPowderCoating()==1) {
+	$powercoatingItemsTemp = $_checkoutSession->getIsSetPowderCoatingItems();
+	$powercoatingItems = [];		
+	$powercoatingItems = unserialize($powercoatingItemsTemp);
+		
+	/////////////////////////
+	$items = $order->getAllVisibleItems();
+	$powdderitemsArr = []; 
+	foreach($items as $item){ 
+		if(in_array($item->getSku(),$powercoatingItems)){
+			$powdderitemsArr[] = $item->getSku();
+		} else {
+			continue;
+		}
+	}
+	$powercoatingItemsStr = implode(", ",$powdderitemsArr);
+	 
+	$feeItems = $_fee->getFinalFeeAmountCustom($order);
+
+	$commentToOrder = "Powdercoating selected color : ".$_checkoutSession->getIsSetPowderCoatingColor()." and fee is ".$feeItems." and items are ".$powercoatingItemsStr;
+if(count($powdderitemsArr)>0) { 
+?>
+<table class="message-info">
+	<tr>
+		<td>
+			<?php echo $commentToOrder;?>
+		</td>
+	</tr>
+</table>
+<?php } } ?>

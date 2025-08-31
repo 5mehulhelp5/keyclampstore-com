@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <security>
+            <module>
+                <type>2</type>
+                <change_log>security</change_log>
+            </module>
+            <action_log_backup>
+                <enabled>1</enabled>
+                <frequency>M</frequency>
+                <clear_log>1</clear_log>
+                <last_backup>2008-03-23 10:00:00</last_backup>
+            </action_log_backup>
+            <away_mode>
+                <enabled>0</enabled>
+                <day></day>
+            </away_mode>
+            <file_change>
+                <exclude_folder><![CDATA[/var
+/generated
+/pub
+.git
+.idea]]>
+                </exclude_folder>
+                <exclude_file>txt,log,png,jpg</exclude_file>
+                <enabled>1</enabled>
+                <email_template>security_file_change_email_template</email_template>
+            </file_change>
+            <skip_actions>
+                adminhtml_auth_login
+                mpsecurity_checklist_fixit
+            </skip_actions>
+        </security>
+    </default>
+</config>

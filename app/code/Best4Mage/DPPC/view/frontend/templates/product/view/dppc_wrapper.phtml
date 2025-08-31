@@ -1,0 +1,87 @@
+<?php
+//die('-------');
+$dppcHelper = $this->helper('Best4Mage\DPPC\Helper\Data');
+if ($block->isDppcEnable() && $dppcHelper->isEnable()) :
+    $product = $block->getProduct();
+    $unitPrice = $block->getPriceFormat($product->getDppcUnitPrice());
+    $finalPrice = $block->getPriceFormat($product->getFinalPrice());
+    $minMaxVal= $block->getMinMaxValues();
+
+    $shapeFormula = '';
+    $selectedShape = '';
+    if ($this->getRequest()->getRouteName() == 'checkout' && $this->getRequest()->getActionName() == 'configure') {
+            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+
+            $checkoutSession = $objectManager->create('\Magento\Checkout\Model\Session');
+            $_item = $checkoutSession->getQuote()->getItemById($this->getRequest()->getParam('id'));
+
+            $selectedShape = $_item->getBuyRequest()->getSelectedShape();
+            $shapeFormula = $_item->getBuyRequest()->getSelectedShapeFormula();
+    }
+    ?>
+    <div class="shape-options-wrapper" id="shape-options-wrapper" style="display: none;">
+        <div id="measurement-price-info" class="measurement-price-info"></div>
+        <script id="measurement-price-template" type="text/x-magento-template">
+            <p>
+                <strong><?php echo __('Base Price'); ?> <%- data.basePrice %></strong><br>
+                <strong><?php echo __('Price Per '); ?><%- data.outputunit %> <%- data.unitPrice %></strong>
+            </p>
+        </script>
+
+        <input id="selected_shape_formula" name="selected_shape_formula" value="<?php echo $shapeFormula; ?>" type="hidden">
+
+        <div class="shape-wrapper" id="shape-wrapper">
+            <div id="option-area-value" class="option-area-value"></div>
+            <label class="label">Choose a Shape <em>*</em></label>
+            <?php if ($productShapes = $block->getProductShapes()) : ?>
+                <ul class="shape-option-list">
+                    <?php foreach ($productShapes as $shapeId => $shapeTitle) : ?>
+                        <li class="shape-option">
+                            <span class="shape-image">
+                            <?php if ($block->getShapeImage($shapeId)) : ?>
+                                <img title="<?php echo $shapeTitle; ?>" alt="<?php echo $shapeTitle; ?>" height="120" width="120" src="<?php echo $block->getShapeImage($shapeId); ?>" />
+                            <?php else : ?>
+                                <label style="line-height:120px; width: 120px; display: inline-block;" for="<?php echo $shapeTitle; ?>"><?php echo $shapeTitle; ?></label>
+                            <?php endif; ?>
+                            </span>
+                        
+                            <input areatype="<?php echo $shapeTitle; ?>" class="radio shape-radio" data-id="<?php echo $shapeId; ?>" name="shape_options[<?php echo $product->getId(); ?>]" id="shape_options_<?php echo $shapeId; ?>" type="radio" >
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                
+                <input id="selected_shape" name="selected_shape" class="validate-shape dppc-validate-input" type="text">
+
+                <?php if ($shapeSides = $block->getShapeSides()) : ?>
+                    <ul class="side-option-list clearer">
+                        <?php foreach ($shapeSides as $shapeid => $shapes) : ?>
+                            <li style="display:none;" data-id="<?php echo $shapeid; ?>" id="shape_<?php echo $shapeid; ?>" class="sides clearer shape_options_<?php echo $shapeid; ?>" >
+                            <?php foreach ($shapes as $key => $value) :
+                                $placeHolder = '';
+                                if (!empty($minMaxVal[$shapeid][$key])) {
+                                    $placeHolder = 'min '.$minMaxVal[$shapeid][$key]['min_value'].' - max '.$minMaxVal[$shapeid][$key]['max_value'];
+                                }
+                                ?>
+                                <span class="side">
+                                    <label for="<?php echo $shapeid.'_'.$key ; ?>"><?php echo $value; ?></label>
+                                    <input id="<?php echo $shapeid.'_'.$key ; ?>" data-side-id="<?php echo $key; ?>" class="input-text" name="side_options[<?php echo $product->getId(); ?>][<?php echo $shapeid?>][<?php echo $key?>]" value="" type="text" placeholder="<?php echo $placeHolder?>" />
+                                </span>
+                            <?php endforeach; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+
+        <script type="text/x-magento-init">
+            {
+                ".shape-wrapper": {
+                    "dppc": {
+                        "config":<?php /* @escapeNotVerified */ echo $block->getDppcJsonConfig() ?>
+                    }
+                }
+            }
+        </script>
+    </div>
+<?php endif; ?>

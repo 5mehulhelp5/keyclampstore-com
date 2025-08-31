@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageplaza_SecurityPro::action_log" title="Action Log" module="Mageplaza_SecurityPro" sortOrder="20" action="mpsecurity/actionlog" resource="Mageplaza_SecurityPro::action_log" parent="Mageplaza_Security::security"/>
+        <add id="Mageplaza_SecurityPro::action_log_backup" title="Action Log Backup" module="Mageplaza_SecurityPro" sortOrder="30" action="mpsecurity/actionlogbackup" resource="Mageplaza_SecurityPro::action_log_backup" parent="Mageplaza_Security::security"/>
+        <add id="Mageplaza_SecurityPro::file_change" title="File Change Log" module="Mageplaza_SecurityPro" sortOrder="40" action="mpsecurity/filechange" resource="Mageplaza_SecurityPro::file_change" parent="Mageplaza_Security::security"/>
+    </menu>
+</config>

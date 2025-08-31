@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_cart_product_add_after">
+        <observer name="dppc_set_custom_price_options_to_ptoduct" instance="Best4Mage\DPPC\Observer\Checkoutadditionaloptions" />
+    </event>
+    <event name="catalog_controller_product_init_before">
+        <observer name="dppc_set_selected_options" instance="Best4Mage\DPPC\Observer\SetPreSelectedOptions" />
+    </event>
+</config>

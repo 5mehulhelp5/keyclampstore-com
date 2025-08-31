@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mageplaza_security_actionlogbackupbackup_listing.mageplaza_security_actionlogbackup_listing_data_source</item>
+            <item name="deps" xsi:type="string">mageplaza_security_actionlogbackup_listing.mageplaza_security_actionlogbackup_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">mageplaza_security_actionlogbackup_columns</item>
+    </argument>
+    <dataSource name="mageplaza_security_action_log_backup_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">\Mageplaza\SecurityPro\Ui\DataProvider\ActionLogBackup</argument>
+            <argument name="name" xsi:type="string">mageplaza_security_actionlogbackup_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">filename</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="mageplaza_security_actionlogbackup_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">Mageplaza\SecurityPro\Ui\DataProvider\ActionLogBackup</item>
+                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">edit</item>
+                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <column name="basename">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">File Name</item>
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="component" xsi:type="string">Mageplaza_SecurityPro/js/grid/columns/file</item>
+                </item>
+            </argument>
+        </column>
+        <column name="filename">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">File Path</item>
+                </item>
+            </argument>
+        </column>
+        <column name="time" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Time</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

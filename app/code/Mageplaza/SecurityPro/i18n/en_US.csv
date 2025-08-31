@@ -1,0 +1,64 @@
+"Action Log","Action Log"
+"Action information","Action information"
+ID,ID
+Time,Time
+"User Name","User Name"
+IP,IP
+Action,Action
+Module,Module
+Status,Status
+Success,Success
+Failed,Failed
+"Full Action Name","Full Action Name"
+Description,Description
+"You should back up your database before adding a database prefix.","You should back up your database before adding a database prefix."
+"And you need permission to write file: /app/etc/env.php","And you need permission to write file: /app/etc/env.php"
+"New prefix","New prefix"
+"File Change Log","File Change Log"
+"File Change information","File Change information"
+"File Name","File Name"
+Path,Path
+"Old Hash","Old Hash"
+"New Hash","New Hash"
+Type,Type
+Reindex,Reindex
+"Action record details","Action record details"
+"This log no longer exists.","This log no longer exists."
+"Action Log Backup","Action Log Backup"
+"Module is disabled","Module is disabled"
+"File Change record details","File Change record details"
+"You have been blocked from away mode.","You have been blocked from away mode."
+File,File
+Hash,Hash
+Date,Date
+"%store_url - File Change Alert by Mageplaza","%store_url - File Change Alert by Mageplaza"
+"File Change Notification","File Change Notification"
+"Mageplaza Security detected that the following file(s) has been added/changed. Please review the report below.","Mageplaza Security detected that the following file(s) has been added/changed. Please review the report below."
+"Check Changes","Check Changes"
+"You received this email as the security alerts are considered to be important to your store(s).","You received this email as the security alerts are considered to be important to your store(s)."
+"Print ","Print "
+"Config Edit","Config Edit"
+"Config Save","Config Save"
+"Flush Cache","Flush Cache"
+Enable,Enable
+Frequency,Frequency
+"Clear Log After Backup","Clear Log After Backup"
+"Away Mode","Away Mode"
+"From Time","From Time"
+"To Time","To Time"
+"Days Of Week","Days Of Week"
+"File Change","File Change"
+"Exclude folders","Exclude folders"
+"Exclude file type","Exclude file type"
+"Separated with commas (,)","Separated with commas (,)"
+"Create Master Hashes","Create Master Hashes"
+"Enable Cron","Enable Cron"
+"Cron will automatically check file changes and send an alert email daily","Cron will automatically check file changes and send an alert email daily"
+"Email template","Email template"
+"Choose an email template to send alerts","Choose an email template to send alerts"
+"IP address","IP address"
+View,View
+"File Path","File Path"
+"Clear Log","Clear Log"
+"Check File Change","Check File Change"
+"Reindex Successfully.","Reindex Successfully."

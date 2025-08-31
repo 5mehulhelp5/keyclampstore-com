@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Product\Option\Value">
+        <plugin name="bss-depend-co-value-saved" type="Bss\DependentCustomOption\Plugin\OptionValuePlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option">
+        <plugin name="bss-depend-co-saved" type="Bss\DependentCustomOption\Plugin\OptionPlugin" sortOrder="10"/>
+    </type>
+    <preference for="Magento\Catalog\Model\ResourceModel\Product\Option" type="Bss\DependentCustomOption\Model\ResourceModel\Override\Product\Option"/>
+    <preference for="Magento\Catalog\Model\ResourceModel\Product\Option\Value" type="Bss\DependentCustomOption\Model\ResourceModel\Override\Product\Option\Value"/>
+    <!--<type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="skip-check-require-custom-option" type="Bss\DependentCustomOption\Plugin\Product" sortOrder="10"/>
+    </type>-->
+    <preference for="Bss\DependentCOFixBug\Api\DependentOptionManagementInterface"
+                type="Bss\DependentCustomOption\Model\DependentOptionManagement" />
+    <preference for="Bss\DependentCOFixBug\Api\DependentOptionRepositoryInterface"
+                type="Bss\DependentCustomOption\Model\DependentOptionRepository" />
+</config>
+

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+      	<css src="Best4Mage_DPPC::css/dppc.css"/>
+    </head>
+    <!-- <body>
+    	<referenceContainer name="product.info.form.content">
+	       <block class="Best4Mage\DPPC\Block\Product\View" name="dppc.wrapper" template="Best4Mage_DPPC::product/view/dppc_wrapper.phtml" before="-" />
+	    </referenceContainer>
+    </body> -->
+</page>

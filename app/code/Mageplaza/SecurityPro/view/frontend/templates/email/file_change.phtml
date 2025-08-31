@@ -1,0 +1,61 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+?>
+<?php
+$name = [
+    'new_files'     => 'File(s) Added',
+    'deleted_files' => 'File(s) Deleted',
+    'changed_files' => 'File(s) Modified'
+]
+?>
+<?php if ($log = $block->getLogs()) : ?>
+    <?php foreach ($log as $key => $items) : ?>
+        <p style="text-align: center;"><?= count($items) . (isset($name[$key]) ? /** @noEscape */ __($name[$key]) : '') ?></p>
+        <table class="<?= isset($name[$key]) ? $block->escapeHtmlAttr(__($name[$key])) : '' ?>-table" align="center"
+               style="border-collapse: collapse; border: 1px solid; width: 100%;">
+            <tr>
+                <th style="border-collapse: collapse; border: 1px solid #ccc;">
+                    <span style="margin: 10px"><?= $block->escapeHtml(__('File')) ?></span>
+                </th>
+                <th style="border-collapse: collapse; border: 1px solid #ccc;">
+                    <span style="margin: 10px"><?= $block->escapeHtml(__('Hash')) ?></span>
+                </th>
+                <th style="border-collapse: collapse; border: 1px solid #ccc;">
+                    <span style="margin: 10px"><?= $block->escapeHtml(__('Date')) ?></span>
+                </th>
+            </tr>
+            <?php foreach ($items as $item) : ?>
+                <tr>
+                    <td style="border-collapse: collapse; border: 1px solid #ccc;">
+                        <span style="margin: 10px"><?= $block->escapeHtml($item['file_name']) ?></span>
+                    </td>
+                    <td style="border-collapse: collapse; border: 1px solid #ccc;">
+                        <span style="margin: 10px"><?= $item['new_hash'] ?: $block->escapeHtml($item['old_hash']) ?></span>
+                    </td>
+                    <td style="border-collapse: collapse; border: 1px solid #ccc;">
+                        <span style="margin: 10px"><?= $block->escapeHtml($item['time']) ?></span>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+        </table>
+    <?php endforeach; ?>
+<?php endif; ?>

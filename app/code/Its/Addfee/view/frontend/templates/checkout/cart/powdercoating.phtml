@@ -1,0 +1,202 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
+$isCheckedPowderCoaing = 0;
+$IsSetPowderCoatingColor = "";
+if(null !== $_checkoutSession->getIsSetPowderCoating() && $_checkoutSession->getIsSetPowderCoating()=="1"){
+	$isCheckedPowderCoaing = 1;	
+	$IsSetPowderCoatingColor = $_checkoutSession->getIsSetPowderCoatingColor();	
+}
+?>
+<form id="powder-containg-frm" method="post" action="">
+<fieldset class="fieldset estimate">
+	<legend class="legend">
+		<span>Powdercoating</span>
+	</legend><br>
+	
+	<span style="font-weight:bold">Choose a colour, tick the items to be powdercoated, and proceed to checkout.</span>
+	<p><span>Powdercoating is typically on a 10-14 days lead time. Contact us beforehand for urgent orders.</span>
+	
+	<div class="field" >
+		<div>
+			<div class="upd-pwc-tl">Standard Colours - No Minimum Fee</div>
+			<div>
+				<ul class="pwc-color-choice">
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL1023")?" active":"";?>" data-id="RAL1023"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL1023.jpg');?>" alt="RAL1023 Traffic Yellow Powdercoating" /></li>
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL9005")?" active":"";?>" data-id="RAL9005"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL9005.jpg');?>" alt="RAL9005 Jet Black Powdercoating" /></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="field" >
+		<div>
+			<div class="upd-pwc-tl">Popular Colours - £70 Minimum Coating Fee</div>
+			<div>
+				<ul class="pwc-color-choice">
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL7016")?" active":"";?>" data-id="RAL7016"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL7016.jpg');?>" alt="RAL7016 Anthracite Powdercoating" /></li>
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL5005")?" active":"";?>" data-id="RAL5005"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL5005.jpg');?>" alt="RAL5005 Signal Blue Powdercoating" /></li>
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL3020")?" active":"";?>" data-id="RAL3020"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL3020.jpg');?>" alt="RAL3020 Traffic Red Powdercoating" /></li>
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL6002")?" active":"";?>" data-id="RAL6002"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL6002.jpg');?>" alt="RAL6002 Leaf Green Powdercoating" /></li>
+					<li class="pwc-choice-sel <?php echo($IsSetPowderCoatingColor=="RAL9016")?" active":"";?>" data-id="RAL9016"><img src="<?php echo $block->getViewFileUrl('Its_Addfee::images/RAL9016.jpg');?>" alt="RAL9016 Traffic White Powdercoating" /></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="field" >
+		<label class="label" for="powder-color">       
+			<span style="font-weight:bold">Enter Any RAL Classic Colour below: £90 Minimum Coating Fee</span>         
+		</label>
+		<div class="control">         
+			<?php /*<input class="input-text" value="<?php echo ($isCheckedPowderCoaing)?$IsSetPowderCoatingColor:""; ?>" type="text" data-validate="{required:true}"  name="powder-color" id="powder-color" > */?>
+			<input class="input-text" value="<?php echo $IsSetPowderCoatingColor; ?>" type="text" data-validate="{required:true}"  name="powder-color" id="powder-color" > 
+			<input class="input-text" value="0" type="hidden" name="powder-coating-all" id="powder-coating-all" > 
+		</div> 
+	</div>
+	<?php //if($isCheckedPowderCoaing){?>
+	<div class="field upd-pwc-color-ctr">
+		<div class="upd-pwc-color" style="font-weight: bold;">UPDATE COLOUR</div>
+	</div>
+	<?php //} ?>
+		<div class="field" >
+		<div class="control">         
+			<input class="input-text" <?php echo($isCheckedPowderCoaing)?"checked":"";?> type="Checkbox" name="powder-coating" id="powder-coating" >  <label class="label" for="powder-coating">       
+			<span>SELECT ALL POWDERCOATABLE ITEMS IN CART</span>         
+		</label>
+		</div>
+	</div>
+</fieldset>
+</form>
+<style>
+.upd-pwc-tl{
+	font-weight:bold;
+	margin:2px;
+}
+ul.pwc-color-choice {
+	padding-left:0px;
+}
+.pwc-color-choice li.active {
+	border:3px solid #000;
+}
+.pwc-color-choice li {
+    float: left;
+	display: contents;
+    width: 80px;
+    height: 80px;
+    padding: 05px;
+	list-style:none;	
+	cursor:pointer;
+}
+.pwc-color-choice li img{
+    width: 80px;
+}
+.upd-pwc-color{
+	cursor:pointer;
+	text-align:right;
+}
+</style>
+
+<script>
+require([
+    'jquery',
+    'mage/validation',
+	'Magento_Checkout/js/action/get-totals',
+    'Magento_Customer/js/customer-data',
+    'Magento_Checkout/js/model/cart/cache',
+    'Magento_Checkout/js/model/cart/totals-processor/default',
+    'Magento_Checkout/js/model/quote'
+], function($,validation, getTotalsAction, customerData,cartCache, totalsDefaultProvider, quote){
+
+    var dataForm = $('#powder-containg-frm');
+    var ignore = null;
+
+    dataForm.mage('validation', {
+        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+    }).find('input:text').attr('autocomplete', 'off');
+
+    $('#powder-coating').click( function() { //can be replaced with any event
+		if($(this).prop("checked") == true){
+			$("#powder-coating-all").val(1);
+			$('.product-item-details input').each(function(){
+				var powdercoating = $(this).attr('name')
+				if(powdercoating !='' &&  powdercoating !== undefined && powdercoating.includes("powder-coating")) {
+					$(this).prop("checked", true);
+				}
+			})
+		}
+		else if($(this).prop("checked") == false){
+			$("#powder-coating-all").val(2);
+			$('.product-item-details input').each(function(){
+				var powdercoating = $(this).attr('name')
+				if(powdercoating !='' &&  powdercoating !== undefined && powdercoating.includes("powder-coating")) {
+					$(this).prop("checked", false);
+				}
+			})
+		}
+		
+        var validFrm = dataForm.validation('isValid'); //validates form and returns boolean
+		
+		if(validFrm) {			 
+			 var param = dataForm.serialize();
+			 $.ajax({
+				showLoader: true,
+				url: "<?php echo $this->getUrl("addfee/index/addpowdercoating");?>",
+				data: param,
+				type: "POST"
+			}).done(function (response) {
+                totalsDefaultProvider.estimateTotals(quote.shippingAddress());
+				return true;
+			});
+		} else {
+			$("#powder-coating").prop("checked", false);
+			$('.product-item-details input').each(function(){
+				var powdercoating = $(this).attr('name')
+				if(powdercoating !='' &&  powdercoating !== undefined && powdercoating.includes("powder-coating")) {
+					$(this).prop("checked", false);
+				}
+			})
+		}
+    });
+
+	$('.pwc-choice-sel').click( function() { 
+		$("#powder-color").val($(this).data("id"));
+		
+		$('.pwc-choice-sel').removeClass("active");
+		$(this).addClass("active");
+		$.ajax({
+			showLoader: true,
+			url: "<?php echo $this->getUrl("addfee/index/addpowdercoatingcolor");?>",
+			data: { colorcode : $(this).data("id")},
+			type: "POST"
+		}).done(function (data) {
+
+			var deferred = $.Deferred();                
+			return true;
+		});
+		if($('input[name="powder-coating"]:checked').length > 0){
+		location.reload(true); 
+		}
+	});
+	$('.upd-pwc-color').click( function() {  
+		$('.pwc-choice-sel').removeClass("active");
+		//$(this).addClass("active");
+		$.ajax({
+			showLoader: true,
+			url: "<?php echo $this->getUrl("addfee/index/addpowdercoatingcolor");?>",
+			data: { colorcode : $("#powder-color").val()},
+			type: "POST"
+		}).done(function (data) {
+			totalsDefaultProvider.estimateTotals(quote.shippingAddress());       
+			return true;
+		});
+	});
+	
+	$('#powder-color').keypress(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			event.preventDefault();			
+			$('.upd-pwc-color').click();
+		}
+	});
+});
+
+</script>

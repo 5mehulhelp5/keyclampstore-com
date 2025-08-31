@@ -1,0 +1,79 @@
+"Widget Title","Widget Title"
+"Title Alignment","Title Alignment"
+"Title Tag","Title Tag"
+"Show Line","Show Line"
+"Widget Description","Widget Description"
+Gap,Gap
+"Active Sections","Active Sections"
+"Enter active sections number. Comma-separated. Leave empty or enter non-existing number to close all sections on page load.","Enter active sections number. Comma-separated. Leave empty or enter non-existing number to close all sections on page load."
+"Allow Collapse All","Allow Collapse All"
+"Allow collapse multiple sections.","Allow collapse multiple sections."
+"At Least Once Open","At Least Once Open"
+Icon,Icon
+"Icon Position","Icon Position"
+"Active Icon","Active Icon"
+"Do not fill content area?","Do not fill content area?"
+"Hide Empty Section","Hide Empty Section"
+Section,Section
+Alignment,Alignment
+Spacing,Spacing
+"Title Font Size","Title Font Size"
+"Border Width","Border Width"
+"Border Radius","Border Radius"
+"Border Style","Border Style"
+"Theme defaults","Theme defaults"
+"Title Colors","Title Colors"
+Normal,Normal
+"Text Color","Text Color"
+"Background Color","Background Color"
+"Border Color","Border Color"
+Hover,Hover
+Active,Active
+"Content Background Color","Content Background Color"
+"Content Padding","Content Padding"
+None,None
+Chevron,Chevron
+Plus,Plus
+Triangle,Triangle
+Dot,Dot
+Custom,Custom
+Title,Title
+"Add Icon","Add Icon"
+"Icon Size","Icon Size"
+URL,URL
+"Icon Design","Icon Design"
+Colors,Colors
+"Icon Color","Icon Color"
+"Inline CSS","Inline CSS"
+"Title Color","Title Color"
+"Line Position","Line Position"
+"Line Color","Line Color"
+"Line Width","Line Width"
+"Display Style","Display Style"
+"Items per page","Items per page"
+"Carousel Options","Carousel Options"
+"Auto Play","Auto Play"
+"Pause on Mouse Hover","Pause on Mouse Hover"
+"Auto Play Timeout","Auto Play Timeout"
+"Dots Navigation","Dots Navigation"
+"Show all","Show all"
+Pagination,Pagination
+"WYSIWYG Editor","WYSIWYG Editor"
+"Active Magezon Page Builder","Active Magezon Page Builder"
+"Deactivate Magezon Page Builder","Deactivate Magezon Page Builder"
+"Add to Cart","Add to Cart"
+"In stock","In stock"
+"Out of stock","Out of stock"
+"Add to Wish List","Add to Wish List"
+"Add to Compare","Add to Compare"
+Cancel,Cancel
+Submit,Submit
+"Magezon Page Builder Free","Magezon Page Builder Free"
+"General Settings","General Settings"
+"Current Version","Current Version"
+"Enable Magezon Page Builder Free","Enable Magezon Page Builder Free"
+"Enable for CMS Pages","Enable for CMS Pages"
+"Enable for Blocks","Enable for Blocks"
+Accordion,Accordion
+"Product Slider","Product Slider"
+"Product Grid","Product Grid"

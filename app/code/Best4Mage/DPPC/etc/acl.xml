@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::content">
+                    <resource id="Best4Mage_DPPC::main_menu" title="DPPC" sortOrder="10" >
+                        <resource id="Best4Mage_DPPC::side" title="Manage Side" sortOrder="40">
+                            <resource id="Best4Mage_DPPC::side_save" title="Save Side" sortOrder="10" />
+                            <resource id="Best4Mage_DPPC::side_delete" title="Delete Side" sortOrder="20" />
+                        </resource>
+                        <resource id="Best4Mage_DPPC::shape" title="Manage Shape" sortOrder="50">
+                            <resource id="Best4Mage_DPPC::shape_save" title="Save shape" sortOrder="10" />
+                            <resource id="Best4Mage_DPPC::shape_delete" title="Delete shape" sortOrder="20" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

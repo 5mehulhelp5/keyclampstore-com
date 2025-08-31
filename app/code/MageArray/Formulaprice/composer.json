@@ -1,0 +1,20 @@
+{
+  "name": "magearray/formulaprice",
+  "description": "Formula Price Magento 2 Extension By MageArray",
+  "type": "magento2-module",
+  "version": "1.1.5",
+  "license": [
+    "proprietary"
+  ],
+  "require": {
+    "chriskonnertz/string-calc": "^2.0"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "MageArray\\Formulaprice\\": ""
+    }
+  }
+}

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="security">
+            <group id="action_log_backup" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Action Log Backup</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frequency" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Frequency</label>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="clear_log" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Clear Log After Backup</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="away_mode" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Away Mode</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="from_time" translate="label" type="time" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>From Time</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="to_time" translate="label" type="time" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>To Time</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>
+                        <![CDATA[If "From Time" is larger/greater than "To Time" , the "Away Mode" function will be disabled]]>
+                    </comment>
+                </field>
+                <field id="day" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Days Of Week</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale\Weekdays</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="file_change" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>File Change</label>
+                <field id="exclude_folder" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Exclude folders</label>
+                    <comment>
+                        <![CDATA[
+                            Separated by new line.<br><br>
+                            <b>Syntax:</b><br>
+                            - Exclude folders based on exact folder path(s). <br>
+                            Eg: <i> /var </i> means <i>magento_root_directory/var/ </i> .<br><br>
+                            - Exclude folders based on folder name(s): All folder(s) named as above will be excluded. <br>
+                            Eg: <i>git</i> means that all folders named <i>git</i> will not be scanned.<br><br>
+                            <b>Recommendation:</b> If there are too many folders on the list to be scanned, store’s performance may be poorly affected.<br>
+                            Mageplaza Security Pro proceeds to scan at 12 am (00:00) in store’s default time
+                        ]]>
+                    </comment>
+                </field>
+                <field id="exclude_file" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Exclude file type</label>
+                    <comment>Separated with commas (,)</comment>
+                </field>
+                <field id="create_master" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Create Master Hashes</label>
+                    <frontend_model>Mageplaza\SecurityPro\Block\Adminhtml\System\Config\CreateMasterHashes</frontend_model>
+                    <comment><![CDATA[Click on Reindex when the module is installed/enabled or when excluding folder(s) or file type(s).
+                    <br><strong>Notice:</strong><span>Please save configuration before clicking on Reindex</span>]]></comment>
+                </field>
+                <field id="enabled" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Cron</label>
+                    <comment>Cron will automatically check file changes and send an alert email daily</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email_template" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Email template</label>
+                    <comment>Choose an email template to send alerts</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

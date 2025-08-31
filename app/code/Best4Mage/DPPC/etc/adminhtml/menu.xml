@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<update id="Best4Mage_All::main_menu" title="Best4Mage Extensions" translate="title" module="Best4Mage_DPPC" sortOrder="20" resource="Best4Mage_All::main_menu"/>
+        <add id="Best4Mage_DPPC::main_menu" title="Dynamic Product Price Calculator" module="Best4Mage_DPPC" sortOrder="30" parent="Best4Mage_All::main_menu" resource="Best4Mage_DPPC::main_menu" />
+        <add id="Best4Mage_DPPC::side" title="Manage Side" module="Best4Mage_DPPC" sortOrder="10" parent="Best4Mage_DPPC::main_menu" action="dppc/side/index" resource="Best4Mage_DPPC::side"/>
+        <add id="Best4Mage_DPPC::shape" title="Manage Shape" module="Best4Mage_DPPC" sortOrder="20" parent="Best4Mage_DPPC::main_menu" action="dppc/shape/index" resource="Best4Mage_DPPC::shape"/>
+        <add id="Best4Mage_DPPC::configuration" title="Store Configuration" module="Best4Mage_DPPC" sortOrder="30" parent="Best4Mage_DPPC::main_menu" action="adminhtml/system_config/edit/section/dppc" resource="Best4Mage_DPPC::configuration" />
+    </menu>
+</config>

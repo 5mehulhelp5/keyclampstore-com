@@ -1,0 +1,63 @@
+MageArray_Formulaprice
+
+-------------
+  CHANGELOG
+-------------
+
+===== 1.0.0 =====
+ * Initial stable M2 release
+
+===== 1.0.1 =====
+ * Bug Fixes
+
+===== 1.0.2 =====
+ * formula pricing with API
+
+===== 1.0.3 =====
+ * Bug Fixes
+
+===== 1.0.4 =====
+ * Bug Fixes
+ * Magento 2.2 Compatibility
+
+===== 1.0.5 =====
+ * Bug Fixes
+ * New Features
+
+===== 1.0.6 =====
+* Bug Fixes
+* Magento 2.3 Compatibility
+
+===== 1.0.7 =====
+* Bug Fixes
+* Magento 2.3.4 Compatibility
+
+===== 1.0.8 =====
+* Bug Fixes
+* Magento 2.4.0 Compatibility
+
+===== 1.0.9 =====
+* Bug Fixes
+* Magento 2.4.2 Compatibility
+
+===== 1.1.0 =====
+* Bug Fixes
+* Magento 2.4.2 Compatibility
+
+===== 1.1.1 =====
+* Bug Fixes of category page loading
+* Magento 2.4.3 Compatibility
+
+===== 1.1.2 =====
+* Bug Fixes
+* Magento 2.4.4 Compatibility
+
+===== 1.1.3 =====
+* Bug Fixes
+* Magento 2.4.5 Compatibility
+
+===== 1.1.4 =====
+* Bug Fixes
+* Magento 2.4.6 Compatibility
+===== 1.1.5 =====
+* Hyva Theme Support

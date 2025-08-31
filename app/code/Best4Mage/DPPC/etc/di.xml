@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Best4Mage\DPPC\Api\Data\SideInterface" type="Best4Mage\DPPC\Model\Side" />
+    <preference for="Best4Mage\DPPC\Api\Data\ShapeInterface" type="Best4Mage\DPPC\Model\Shape" />
+    <preference for="Magento\Checkout\Model\Cart" type="Best4Mage\DPPC\Model\Rewrite\Cart" />
+    <preference for="Magento\Catalog\Block\Product\View\Options" type="Best4Mage\DPPC\Block\Product\View\Options" />
+
+    <virtualType name="DPPCGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SideGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Best4Mage\DPPC\Model\Resource\Side\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">DPPCGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Best4Mage\DPPC\Model\ResourceModel\Side\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">dppc_side</argument>
+            <argument name="resourceModel" xsi:type="string">Best4Mage\DPPC\Model\ResourceModel\Side</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="dppc_side_listing_data_source" xsi:type="string">Best4Mage\DPPC\Model\ResourceModel\Side\Grid\Collection</item>
+                <item name="dppc_shape_listing_data_source" xsi:type="string">Best4Mage\DPPC\Model\ResourceModel\Shape\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="ShapeGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Best4Mage\DPPC\Model\Resource\Shape\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">DPPCGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Best4Mage\DPPC\Model\ResourceModel\Shape\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">dppc_shape</argument>
+            <argument name="resourceModel" xsi:type="string">Best4Mage\DPPC\Model\ResourceModel\Shape</argument>
+        </arguments>
+    </virtualType>
+    <!-- <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="dppc_shape_listing_data_source" xsi:type="string">Best4Mage\DPPC\Model\ResourceModel\Shape\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type> -->
+
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="order_additiional_options" type="Best4Mage\DPPC\Plugin\ToOrderItem" sortOrder="1" />
+    </type>
+</config>

@@ -1,0 +1,31 @@
+{
+	"name": "best4mage/dppc",
+	"description": "Best4Mage Dynamic Product Pricing Calculator",
+	"type": "magento2-module",
+	"version": "1.1.2",
+	"authors": [
+		{
+			"name": "Best4Mage",
+			"email": "info@best4mage.com",
+			"homepage": "http://www.best4mage.com/"
+		}
+	],
+	"autoload": {
+		"files": [ "registration.php" ],
+		"psr-4": {
+			"Best4Mage\\DPPC\\": ""
+		}
+	},
+	"keywords": [
+		"magento2",
+		"magento 2",
+		"best4mage",
+		"dppc",
+		"simple",
+		"configurable",
+		"product",
+		"dynamic",
+		"calculator",
+		"price"
+	]
+}

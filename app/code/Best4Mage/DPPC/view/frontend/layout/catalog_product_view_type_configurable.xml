@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    	<referenceBlock  name="product.info.options" template="Best4Mage_DPPC::product/view/options.phtml"  />
+        <referenceBlock name="product.info.options.wrapper">
+            <block class="Best4Mage\DPPC\Block\Product\View" name="dppc.wrapper" template="Best4Mage_DPPC::product/view/dppc_wrapper.phtml" before="-" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,18 @@
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    paths:
+        - .
+    excludePaths:
+        - vendor/*
+    ignoreErrors:
+        - '/ has no return type specified./'
+
+        - message: '/Use service contracts to persist entities in favour of Magento\\Cron\\Model\\Schedule\:\:save\(\) method/'
+          path: Cron/ScheduleJob.php
+
+        - message: '/Call to deprecated method save\(\) of class Magento\\Framework\\Model\\AbstractModel/'
+          path: Cron/ScheduleJob.php
+
+        - message: '/Parameter \#1 \$(autoload_function|callback) of function spl_autoload_register expects/'
+          path: Test/bootstrap.php

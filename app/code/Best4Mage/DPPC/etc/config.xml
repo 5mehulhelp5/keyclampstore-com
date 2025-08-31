@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dppc>
+            <general_settings>
+                <enable>1</enable>
+                <configure_price>0</configure_price>
+            </general_settings>
+            <support_info>
+            	<version>1.1.2</version>
+            </support_info>
+        </dppc>
+    </default>
+</config>

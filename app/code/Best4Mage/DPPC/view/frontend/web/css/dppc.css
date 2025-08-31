@@ -1,0 +1,68 @@
+.clearer:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+.shape-option-list, .side-option-list{
+	padding: 0;
+	list-style: none;
+}
+.shape-option-list{
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 12px;
+}
+.shape-option {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+}
+.shape-image {
+    display: block;
+    color: #636363;
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    line-height: 100%;
+}
+.shape-image:hover{
+	background-color: #ececec;
+}
+.shape-option input[type="radio"]{
+	margin: 6px 0 0;
+}
+.side {
+    float: left;
+    margin-right: 10px;
+    max-width: 135px;
+}
+.sides .input-text::-webkit-input-placeholder{
+    font-size: 11px;  
+}
+.sides .input-text:-ms-input-placeholder{
+    font-size: 11px;  
+}
+.sides .input-text:-moz-placeholder{
+    font-size: 11px;
+}
+.sides .input-text::-moz-placeholder{
+    font-size: 11px;
+}
+#shape-wrapper {
+    border: 1px solid #cccccc;
+    padding: 15px;
+}
+.shape-wrapper > label{
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+.dppc-validate-input{
+    left: -1000px;
+    position: absolute;
+    visibility: hidden;
+}
+.measurement-price-info{
+    margin-top: 5px; 
+}
+.shape-options-wrapper .field-error, 
+.shape-options-wrapper div.mage-error[generated]{
+    margin-bottom: 7px;
+}
+#shape-wrapper > .label em{
+    color: red;
+}

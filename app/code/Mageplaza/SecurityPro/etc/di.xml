@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SecurityPro
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Mageplaza\Security\Helper\Data" type="Mageplaza\SecurityPro\Helper\Data"/>
+
+    <type name="\Mageplaza\Security\Console\Command\Reset">
+        <plugin name="mp_securitypro_reset" type="Mageplaza\SecurityPro\Plugin\Console\Command\Reset"/>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageplaza_security_actionlog_listing_data_source" xsi:type="string">mageplaza_security_actionlog_data_source</item>
+                <item name="mageplaza_security_filechange_listing_data_source" xsi:type="string">mageplaza_security_filechange_data_source</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="mageplaza_security_actionlog_data_source" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageplaza_security_action_log</argument>
+            <argument name="resourceModel" xsi:type="string">Mageplaza\SecurityPro\Model\ResourceModel\ActionLog</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="mageplaza_security_filechange_data_source" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageplaza_security_file_change</argument>
+            <argument name="resourceModel" xsi:type="string">Mageplaza\SecurityPro\Model\ResourceModel\FileChange</argument>
+        </arguments>
+    </virtualType>
+</config>
