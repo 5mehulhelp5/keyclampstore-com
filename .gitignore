@@ -42,6 +42,4 @@
 /vendor/magento/framework/Test
 /vendor/magento/magento2-base
 /vendor/magento/magento2-functional-testing-framework
-# 2025-05-22 Dmitrii Fediuk https://upwork.com/fl/mage2pro
-/vendor/mpdf/mpdf/tmp/
 /vendor/tubalmartin
