@@ -40,22 +40,22 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         \Magento\Quote\Model\Quote\Address\Total $total
     ) {
         parent::collect($quote, $shippingAssignment, $total);
-
-        $basefee = $this->getFinalFeeAmount($quote);
-
-        if ($basefee > 0 &&  $basefee < 50 && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
-        	$basefee = 50;
-        }
-        $fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
-        $total->setTotalAmount('fee', $fee);
-        $total->setBaseTotalAmount('fee', $basefee);
-
-        $total->setFee($fee);
-        $total->setBaseFee($basefee);
-
-        $quote->setFee($basefee);
-        $quote->setFeeTax($fee);
-
+		# 2025-09-01 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+		# "Repair the payment process when a powder coating fee is applied":
+		# https://github.com/keyclampstore-com/m/issues/3
+		if ($shippingAssignment->getItems()) {
+			$basefee = $this->getFinalFeeAmount($quote);
+			if ($basefee > 0 &&  $basefee < 50 && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
+				$basefee = 50;
+			}
+			$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
+			$total->setTotalAmount('fee', $fee);
+			$total->setBaseTotalAmount('fee', $basefee);
+			$total->setFee($fee);
+			$total->setBaseFee($basefee);
+			$quote->setFee($basefee);
+			$quote->setFeeTax($fee);
+		}
         return $this;
     } 
 
