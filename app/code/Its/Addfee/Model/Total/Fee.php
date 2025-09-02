@@ -57,11 +57,14 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			$quote->setFeeTax($fee);
 		}
         return $this;
-    } 
+    }
 
 
-	
-	public function getFinalFeeAmount(\Magento\Quote\Model\Quote $quote)
+	/**
+	 * @used-by self::collect()
+	 * @used-by self::fetch()
+	 */
+	private function getFinalFeeAmount(\Magento\Quote\Model\Quote $quote)
 	{
 		
 		$fee = 0; 
