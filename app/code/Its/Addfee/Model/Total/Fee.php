@@ -29,39 +29,36 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
 
     /**
-     * @param \Magento\Quote\Model\Quote $quote
-     * @param \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment
-     * @param \Magento\Quote\Model\Quote\Address\Total $total
      * @return $this
      */
   	function collect(
         \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
-        \Magento\Quote\Model\Quote\Address\Total $total
+        \Magento\Quote\Model\Quote\Address\Total $t
     ) {
-        parent::collect($quote, $shippingAssignment, $total);
+        parent::collect($quote, $shippingAssignment, $t);
 		# 2025-09-01 Dmitrii Fediuk https://upwork.com/fl/mage2pro
 		# "Repair the payment process when a powder coating fee is applied":
 		# https://github.com/keyclampstore-com/m/issues/3
+		$add = function(string $k, float $v) use($t) {
+			$t[$k] = $t[$k] + $v;
+			$t["base_$k"] = $t["base_$k"] + $v;
+		};
 		if ($shippingAssignment->getItems()) {
 			$fee = $this->getFinalFeeAmount($quote);
-			$feeTax = 0.2 * $fee;
-			/** @var \Magento\Framework\Pricing\Helper\Data $h */
-			$h = \Magento\Framework\App\ObjectManager::getInstance()
-				->get(\Magento\Framework\Pricing\Helper\Data::class);
-			$feeTax = $h->currency($feeTax, false, false);
+			$tax = round(0.2 * $fee, 2);
 			//$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
-			$total->setTotalAmount($this->getCode(), $fee);
-			$total->setBaseTotalAmount($this->getCode(), $fee);
-
-			$total->setTaxAmount($feeTax + $total->getTaxAmount());
-			$total->setBaseTaxAmount($feeTax + $total->getBaseTaxAmount());
-
-			$total->setGrandTotal($fee + $feeTax + $total->getGrandTotal());
-			$total->setBaseGrandTotal($fee + $feeTax + $total->getBaseGrandTotal());
-
+			$add('subtotal', $fee);
+			$add('subtotal_with_discount', $fee);
+			$add('tax_amount', $tax);
+			$add('subtotal_incl_tax', $fee + $tax);
+			$t->addTotalAmount('tax', $tax);
+			$t->setTotalAmount($this->getCode(), $fee);
+			$t->setBaseTotalAmount($this->getCode(), $fee);
+			/** @used-by \Its\Addfee\Observer\Sales\QuoteSubmitBefore::execute */
 			$quote->setFee($fee);
-			$quote->setFeeTax($fee + $feeTax);
+			$quote->setBaseFee($fee);
+			$quote->setFeeTax($fee + $tax);
 		}
         return $this;
     }
@@ -184,10 +181,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		if ($fee > 0 &&  $fee < $v && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
 			$fee = $v;
 		}
-		/** @var \Magento\Framework\Pricing\Helper\Data $h */
-		$h = \Magento\Framework\App\ObjectManager::getInstance()
-			->get(\Magento\Framework\Pricing\Helper\Data::class);
-		return $h->currency($fee, false, false);
+		return round($fee, 2);
 	}
 
     protected function clearValues(Address\Total $total)

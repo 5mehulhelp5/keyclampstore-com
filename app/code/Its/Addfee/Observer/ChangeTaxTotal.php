@@ -14,9 +14,9 @@ class ChangeTaxTotal implements ObserverInterface
         $total = $observer->getData('total');
 
         //make sure tax value exist
-         if ($total->getAppliedTaxes()) {
+        if ($total->getAppliedTaxes()) {
             $total->addTotalAmount('tax', $total->getFee() - $total->getBaseFee());
-            $total->addBaseTotalAmount('tax', $total->getFee() - $total->getBaseFee());
+           $total->addBaseTotalAmount('tax', $total->getFee() - $total->getBaseFee());
          }
 
         return $this;
