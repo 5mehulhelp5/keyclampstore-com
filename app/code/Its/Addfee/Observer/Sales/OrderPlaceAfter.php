@@ -45,9 +45,9 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                     $skus
             ));
 		}
-		$this->_checkoutSession->unsIsSetPowderCoating(0);	
+		/*$this->_checkoutSession->unsIsSetPowderCoating(0);
 		$this->_checkoutSession->unsIsSetPowderCoatingColor(null);	
-		$this->_checkoutSession->unsIsSetPowderCoatingItems(null);	
+		$this->_checkoutSession->unsIsSetPowderCoatingItems(null);*/
 		$order->save();
     }
 }
