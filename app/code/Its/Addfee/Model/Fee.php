@@ -15,7 +15,7 @@ class Fee extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
-    public function __construct(
+    function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
@@ -28,7 +28,7 @@ class Fee extends \Magento\Framework\Model\AbstractModel
     /**
      * @return void
      */
-    public function _construct()
+    function _construct()
     {
         $this->_init('Its\Addfee\Model\ResourceModel\Fee');
     }

@@ -8,7 +8,7 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 	
 	protected $_checkoutSession;
 
-	public function __construct(
+	function __construct(
 		\Magento\Checkout\Model\Session $checkoutSession,
 		\Magento\Framework\Pricing\Helper\Data $pricingHelper
 	){
@@ -22,7 +22,7 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function execute(
+    function execute(
         \Magento\Framework\Event\Observer $observer
     ) {
         $order = $observer->getOrder();

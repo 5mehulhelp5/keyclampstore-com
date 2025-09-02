@@ -9,7 +9,7 @@ class AddVars
      * OrderSetTemplateVarsBefore constructor.
      * @param \Magento\Framework\Pricing\Helper\Data $pricingHelper
      */
-    public function __construct(
+    function __construct(
         \Magento\Framework\Pricing\Helper\Data $pricingHelper
     ) {
         $this->pricingHelper = $pricingHelper;
@@ -18,7 +18,7 @@ class AddVars
     /**
      * @return void
      */
-    public function beforeSetTemplateVars($subject, array $vars) {
+    function beforeSetTemplateVars($subject, array $vars) {
         
         //get order
         if (isset($vars['order']) && $vars['order'] instanceof \Magento\Sales\Model\Order) {

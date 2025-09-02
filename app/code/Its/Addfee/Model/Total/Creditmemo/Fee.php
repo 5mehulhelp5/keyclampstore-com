@@ -8,7 +8,7 @@ class Fee extends AbstractTotal
      * @param \Magento\Sales\Model\Order\creditmemo $creditmemo
      * @return $this
      */
-    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
+    function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {		
         $amount = $creditmemo->getOrder()->getFee();	
         $creditmemo->setFee($amount);

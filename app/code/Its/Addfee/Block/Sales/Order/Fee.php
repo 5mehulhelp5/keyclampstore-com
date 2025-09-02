@@ -8,7 +8,7 @@ class Fee extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    public function displayFullSummary()
+    function displayFullSummary()
     {
         return true;
     }
@@ -18,7 +18,7 @@ class Fee extends \Magento\Framework\View\Element\Template
      *
      * @return \Magento\Framework\DataObject
      */
-    public function getSource()
+    function getSource()
     {
         return $this->_source;
     }
@@ -26,7 +26,7 @@ class Fee extends \Magento\Framework\View\Element\Template
     /**
      * @return mixed
      */
-    public function getStore()
+    function getStore()
     {
         return $this->_order->getStore();
     }
@@ -34,7 +34,7 @@ class Fee extends \Magento\Framework\View\Element\Template
     /**
      * @return Order
      */
-    public function getOrder()
+    function getOrder()
     {
         return $this->_order;
     }
@@ -42,7 +42,7 @@ class Fee extends \Magento\Framework\View\Element\Template
     /**
      * @return array
      */
-    public function getLabelProperties()
+    function getLabelProperties()
     {
         return $this->getParentBlock()->getLabelProperties();
     }
@@ -50,7 +50,7 @@ class Fee extends \Magento\Framework\View\Element\Template
     /**
      * @return array
      */
-    public function getValueProperties()
+    function getValueProperties()
     {
         return $this->getParentBlock()->getValueProperties();
     }
@@ -58,7 +58,7 @@ class Fee extends \Magento\Framework\View\Element\Template
     /**
      * @return $this
      */
-    public function initTotals()
+    function initTotals()
     {
         $parent = $this->getParentBlock();
         $this->_order = $parent->getOrder();

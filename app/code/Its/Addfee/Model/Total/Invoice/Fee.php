@@ -8,7 +8,7 @@ class Fee extends AbstractTotal
      * @param \Magento\Sales\Model\Order\Invoice $invoice
      * @return $this
      */
-    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
+    function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         // $invoice->setFee($invoice->getOrder()->getFee());
         // $invoice->setBaseFee(0);

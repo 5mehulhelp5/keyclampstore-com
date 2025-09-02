@@ -10,7 +10,7 @@ class Tax extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     * @param Address\Total $total
     * @return $this
     */
-    public function collect(
+    function collect(
         \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total

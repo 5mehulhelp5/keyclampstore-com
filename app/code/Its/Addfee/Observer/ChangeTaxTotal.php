@@ -8,7 +8,7 @@ class ChangeTaxTotal implements ObserverInterface
 {
     public $additionalTaxAmt = 20;
 
-    public function execute(Observer $observer)
+    function execute(Observer $observer)
     {
         /** @var Magento\Quote\Model\Quote\Address\Total */
         $total = $observer->getData('total');

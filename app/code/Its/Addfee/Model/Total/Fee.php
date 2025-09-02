@@ -17,7 +17,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     protected $quoteValidator = null; 
 
-    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator,
+    function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator,
 								\Magento\Checkout\Model\Session $checkoutSession,
 								\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface,
 								\Magento\Catalog\Model\Product $catalogProduct)
@@ -34,7 +34,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @param \Magento\Quote\Model\Quote\Address\Total $total
      * @return $this
      */
-  	public function collect(
+  	function collect(
         \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total
@@ -199,7 +199,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
+    function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
     {
 		$finalFeeamount = $this->getFinalFeeAmount($quote);
 		if ($finalFeeamount > 0 && $finalFeeamount < 50 && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
@@ -218,7 +218,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      *
      * @return \Magento\Framework\Phrase
      */
-    public function getLabel()
+    function getLabel()
     {
         return __('Powdercoating Fee');
     }

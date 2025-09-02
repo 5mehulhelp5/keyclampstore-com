@@ -6,7 +6,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return mixed
      */
-    public function getOrder()
+    function getOrder()
     {
         return $this->getParentBlock()->getOrder();
     }
@@ -14,7 +14,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return mixed
      */
-    public function getSource()
+    function getSource()
     {
         return $this->getParentBlock()->getSource();
     }
@@ -22,7 +22,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return $this
      */
-    public function initTotals()
+    function initTotals()
     {
         $this->getParentBlock();
         $this->getOrder();

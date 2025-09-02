@@ -7,7 +7,7 @@ class Addpowdercoatingcolor extends \Magento\Framework\App\Action\Action
 	protected $_checkoutSession;
 	protected $_request;
 
-	public function __construct(
+	function __construct(
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Checkout\Model\Session $checkoutSession,
 		\Magento\Framework\App\RequestInterface $request,
@@ -21,7 +21,7 @@ class Addpowdercoatingcolor extends \Magento\Framework\App\Action\Action
 		return parent::__construct($context);
 	}
 
-	public function execute()
+	function execute()
 	{
 		/** @var \Magento\Framework\Controller\Result\Json $resultJson */
         $resultJson = $this->resultJsonFactory->create();

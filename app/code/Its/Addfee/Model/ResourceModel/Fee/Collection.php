@@ -8,7 +8,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      *
      * @return void
      */
-    public function _construct()
+    function _construct()
     {
         $this->_init('Its\Addfee\Model\Fee', 'Its\Addfee\Model\ResourceModel\Fee');
     }

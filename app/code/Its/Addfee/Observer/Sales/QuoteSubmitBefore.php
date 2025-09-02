@@ -10,7 +10,7 @@ class QuoteSubmitBefore implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function execute(
+    function execute(
         \Magento\Framework\Event\Observer $observer
     ) {
         try {

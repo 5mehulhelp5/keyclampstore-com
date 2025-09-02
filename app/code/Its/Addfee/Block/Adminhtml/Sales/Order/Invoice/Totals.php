@@ -7,7 +7,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return mixed
      */
-    public function getSource()
+    function getSource()
     {
         return $this->getParentBlock()->getSource();
     }
@@ -15,7 +15,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return mixed
      */
-    public function getInvoice()
+    function getInvoice()
     {
         return $this->getParentBlock()->getInvoice();
     }
@@ -23,7 +23,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * @return $this
      */
-    public function initTotals()
+    function initTotals()
     {
         $this->getParentBlock();
         $this->getInvoice();
