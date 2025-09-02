@@ -66,9 +66,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 	 * @used-by self::collect()
 	 * @used-by self::fetch()
 	 */
-	private function getFinalFeeAmount(\Magento\Quote\Model\Quote $quote)
-	{
-		
+	private function getFinalFeeAmount(\Magento\Quote\Model\Quote $quote): array {
 		$fee = 0; 
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();		
 		$checkoutSession = $objectManager->create('\Magento\Checkout\Model\Session');
@@ -176,7 +174,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		$customerSession->setPowderCoatingPrice($fee);
 		$quote->setTestfeeamount($fee);
 
-		return $fee+$fee/5;
+		return [$fee, 1.2 * $fee];
 	}
 
     protected function clearValues(Address\Total $total)
