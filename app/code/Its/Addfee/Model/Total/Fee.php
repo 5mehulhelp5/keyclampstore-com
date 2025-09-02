@@ -61,6 +61,8 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
 
 	/**
+	 * 2025-09-02 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+	 * "Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4
 	 * @used-by self::collect()
 	 * @used-by self::fetch()
 	 */
