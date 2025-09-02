@@ -53,6 +53,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			$add('tax_amount', $tax);
 			$add('subtotal_incl_tax', $fee + $tax);
 			$t->addTotalAmount('tax', $tax);
+			$t->addBaseTotalAmount('tax', $tax);
 			$t->setTotalAmount($this->getCode(), $fee);
 			$t->setBaseTotalAmount($this->getCode(), $fee);
 			/** @used-by \Its\Addfee\Observer\Sales\QuoteSubmitBefore::execute */
