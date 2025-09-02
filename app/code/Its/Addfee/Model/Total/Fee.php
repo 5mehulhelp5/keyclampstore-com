@@ -199,17 +199,14 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * Assign subtotal amount and label to address object
-     *
-     * @param \Magento\Quote\Model\Quote $quote
-     * @param Address\Total $total
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total) {
+    function fetch(\Magento\Quote\Model\Quote $q, \Magento\Quote\Model\Quote\Address\Total $total) {
         return [
             'code' => 'fee',
             'title' => ('Powdercoating Fee'),
-            'value' => $total->getTotalAmount($this->getCode())
+            'value' => $this->getFinalFeeAmount($q)
         ];
     }
 
