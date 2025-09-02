@@ -2,7 +2,9 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
 	<section name="quote">
 		<group name="totals">
-			<item name="fee" instance="Its\Addfee\Model\Total\Fee" sort_order="100"/>
+<!-- 2025-09-02 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+"Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4 -->
+			<item name="fee" instance="Its\Addfee\Model\Total\Fee" sort_order="450"/>
 		</group>  
 	</section>
 	<section name="order_invoice">

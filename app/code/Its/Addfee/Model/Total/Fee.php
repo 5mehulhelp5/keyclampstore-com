@@ -48,7 +48,8 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			if ($basefee > 0 &&  $basefee < 50 && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
 				$basefee = 50;
 			}
-			$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
+			$fee = $basefee;
+			//$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
 			$total->setTotalAmount('fee', $fee);
 			$total->setBaseTotalAmount('fee', $basefee);
 			$total->setFee($fee);
@@ -174,7 +175,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		$customerSession->setPowderCoatingPrice($fee);
 		$quote->setTestfeeamount($fee);
 
-		return 1.2 * $fee;
+		return $fee;
 	}
 
     protected function clearValues(Address\Total $total)
@@ -199,17 +200,11 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
-    {
-		$finalFeeamount = $this->getFinalFeeAmount($quote);
-		if ($finalFeeamount > 0 && $finalFeeamount < 50 && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
-			$finalFeeamount = 50;
-		}
-		
+    function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total) {
         return [
             'code' => 'fee',
             'title' => ('Powdercoating Fee'),
-            'value' => $finalFeeamount
+            'value' => $total->getTotalAmount($this->getCode())
         ];
     }
 
