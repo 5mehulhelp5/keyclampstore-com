@@ -19,8 +19,8 @@ class ChangeTaxTotal implements ObserverInterface
 			if ($tax) {
 				$total->addTotalAmount('tax', $tax);
 				$total->addBaseTotalAmount('tax', $tax);
-				$total->addTotalAmount('grand_total', $tax);
-				$total->addBaseTotalAmount('grand_total', $tax);
+				$total->setGrandTotal($total->getGrandTotal() + $tax);
+				$total->setBaseGrandTotal($total->getBaseGrandTotal() + $tax);
 			}
 		}
         return $this;
