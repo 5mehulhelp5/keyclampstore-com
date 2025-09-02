@@ -46,6 +46,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		if ($shippingAssignment->getItems()) {
 			$fee = $this->getFinalFeeAmount($quote);
 			$feeTax = 0.2 * $fee;
+			/** @var \Magento\Framework\Pricing\Helper\Data $h */
+			$h = \Magento\Framework\App\ObjectManager::getInstance()
+				->get(\Magento\Framework\Pricing\Helper\Data::class);
+			$feeTax = $h->currency($feeTax, false, false);
 			//$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
 			$total->setTotalAmount($this->getCode(), $fee);
 			$total->setBaseTotalAmount($this->getCode(), $fee);
@@ -180,7 +184,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		if ($fee > 0 &&  $fee < $v && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
 			$fee = $v;
 		}
-		return $fee;
+		/** @var \Magento\Framework\Pricing\Helper\Data $h */
+		$h = \Magento\Framework\App\ObjectManager::getInstance()
+			->get(\Magento\Framework\Pricing\Helper\Data::class);
+		return $h->currency($fee, false, false);
 	}
 
     protected function clearValues(Address\Total $total)
