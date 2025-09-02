@@ -223,4 +223,3 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         return __('Powdercoating Fee');
     }
 }
-?>
