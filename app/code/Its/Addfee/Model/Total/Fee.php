@@ -57,9 +57,11 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			$t->setTotalAmount($this->getCode(), $fee);
 			$t->setBaseTotalAmount($this->getCode(), $fee);
 			/** @used-by \Its\Addfee\Observer\Sales\QuoteSubmitBefore::execute */
+			/** @used-by \Its\Addfee\Observer\PaymentCartCollectItemsAndAmounts::execute() */
 			$quote->setFee($fee);
 			$quote->setBaseFee($fee);
-			$quote->setFeeTax($fee + $tax);
+			/** @used-by \Its\Addfee\Observer\PaymentCartCollectItemsAndAmounts::execute() */
+			$quote->setFeeTax($tax);
 		}
         return $this;
     }
