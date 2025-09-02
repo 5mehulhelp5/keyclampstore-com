@@ -79,14 +79,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();		
 		$checkoutSession = $objectManager->create('\Magento\Checkout\Model\Session');
 		$customerSession = $objectManager->create('\Magento\Checkout\Model\Session');
-		
-		
-		if(null !== $checkoutSession->getIsSetPowderCoating() && $checkoutSession->getIsSetPowderCoating()=="1"){
 
-		} else {
+		if (!(int)$checkoutSession->getIsSetPowderCoating()) {
 			return 0;
 		}
-		
 		$powercoatingItemsTemp = $checkoutSession->getIsSetPowderCoatingItems();
 		$powercoatingItemsColorCode = $checkoutSession->getIsSetPowderCoatingColor();
 		$powercoatingItems = [];
