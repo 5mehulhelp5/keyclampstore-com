@@ -174,7 +174,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		$checkoutSession->setPowderCoatingPrice($fee);
 		$customerSession->setPowderCoatingPrice($fee);
 		$quote->setTestfeeamount($fee);
-
+		$v = 50 / 1.2;
+		if ($fee > 0 &&  $fee < $v && !in_array($this->colorcode,["RAL1023","RAL9005"])) {
+			$fee = $v;
+		}
 		return $fee;
 	}
 
