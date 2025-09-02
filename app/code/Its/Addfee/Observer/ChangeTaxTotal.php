@@ -15,8 +15,11 @@ class ChangeTaxTotal implements ObserverInterface
 		$q = $observer->getData('quote');
         //make sure tax value exist
 		if ($total->getAppliedTaxes()) {
-			$total->addTotalAmount('tax', $q['fee_tax']);
-			$total->addBaseTotalAmount('tax', $q['fee_tax']);
+			$tax = $q['fee_tax'];
+			if ($tax) {
+				$total->addTotalAmount('tax', $q['fee_tax']);
+				$total->addBaseTotalAmount('tax', $q['fee_tax']);
+			}
 		}
         return $this;
     }
