@@ -12,9 +12,7 @@
 			instance="Its\Addfee\Observer\PaymentCartCollectItemsAndAmounts"
 		/>
     </event>
-<!--
     <event name="sales_quote_address_collect_totals_after">
         <observer name="changeTaxTotal" instance="Its\Addfee\Observer\ChangeTaxTotal"/>
     </event>
-    -->
 </config>

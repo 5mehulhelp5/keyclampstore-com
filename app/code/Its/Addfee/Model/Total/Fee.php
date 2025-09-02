@@ -48,10 +48,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			$fee = $this->getFinalFeeAmount($quote);
 			$tax = round(0.2 * $fee, 2);
 			//$fee = $basefee + ($basefee * $this->additionalTaxAmt / 100);
-			$add('subtotal', $fee);
-			$add('subtotal_with_discount', $fee);
+		//	$add('subtotal', $fee);
+		//	$add('subtotal_with_discount', $fee);
 			$add('tax_amount', $tax);
-			$add('subtotal_incl_tax', $fee + $tax);
+		//	$add('subtotal_incl_tax', $fee + $tax);
 			$t->addTotalAmount('tax', $tax);
 			$t->addBaseTotalAmount('tax', $tax);
 			$t->setTotalAmount($this->getCode(), $fee);
@@ -61,6 +61,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 			$quote->setFee($fee);
 			$quote->setBaseFee($fee);
 			/** @used-by \Its\Addfee\Observer\PaymentCartCollectItemsAndAmounts::execute() */
+			/** @used-by \Its\Addfee\Observer\ChangeTaxTotal::execute() */
 			$quote->setFeeTax($tax);
 		}
         return $this;

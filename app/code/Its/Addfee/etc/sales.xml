@@ -4,7 +4,7 @@
 		<group name="totals">
 <!-- 2025-09-02 Dmitrii Fediuk https://upwork.com/fl/mage2pro
 "Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4 -->
-			<item name="fee" instance="Its\Addfee\Model\Total\Fee" sort_order="450"/>
+			<item name="fee" instance="Its\Addfee\Model\Total\Fee" sort_order="100"/>
 		</group>  
 	</section>
 	<section name="order_invoice">
