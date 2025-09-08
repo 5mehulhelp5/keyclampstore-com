@@ -5,7 +5,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Quote\Model\Quote as Q;
 use Magento\Quote\Model\Quote\Address\Total as T;
 class ChangeTaxTotal implements ObserverInterface {
-    function execute(Observer $observer):void {
+    final function execute(Observer $observer):void {
         $t = $observer->getData('total'); /** @var T $t */
 		$q = $observer->getData('quote'); /** @var Q $q */
 		if ($t->getAppliedTaxes() && ($tax = $q['fee_tax'])) {
