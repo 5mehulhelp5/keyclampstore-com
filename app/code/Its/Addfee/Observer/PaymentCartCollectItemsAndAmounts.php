@@ -18,9 +18,10 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
         $c = $observer->getEvent()->getCart();
 		if ($c instanceof \Magento\Paypal\Model\Cart) {
 			# 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
-			# «Trying to access array offset on value of type null
+			# 1) «Trying to access array offset on value of type null
 			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
 			# https://github.com/keyclampstore-com/m/issues/5
+			# 2) https://g.co/gemini/share/742478ab3e51
 			$s = OM::getInstance()->get(S::class); /** @var S $s */
 			$q = $s->getQuote(); /** @var Q $q */
 			if ($q['fee']) {
