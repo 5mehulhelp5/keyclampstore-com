@@ -5,17 +5,17 @@ use Magento\Framework\Event\Observer;
 use Magento\Quote\Model\Quote\Address\Total as T;
 class ChangeTaxTotal implements ObserverInterface {
     function execute(Observer $observer) {
-        $total = $observer->getData('total'); /** @var T $total */
+        $t = $observer->getData('total'); /** @var T $t */
 		/** @var \Magento\Quote\Model\Quote $q */
 		$q = $observer->getData('quote');
         //make sure tax value exist
-		if ($total->getAppliedTaxes()) {
+		if ($t->getAppliedTaxes()) {
 			$tax = $q['fee_tax'];
 			if ($tax) {
-				$total->addTotalAmount('tax', $tax);
-				$total->addBaseTotalAmount('tax', $tax);
-				$total->setGrandTotal($total->getGrandTotal() + $tax);
-				$total->setBaseGrandTotal($total->getBaseGrandTotal() + $tax);
+				$t->addTotalAmount('tax', $tax);
+				$t->addBaseTotalAmount('tax', $tax);
+				$t->setGrandTotal($t->getGrandTotal() + $tax);
+				$t->setBaseGrandTotal($t->getBaseGrandTotal() + $tax);
 			}
 		}
         return $this;
