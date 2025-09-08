@@ -20,7 +20,7 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
 			# «Trying to access array offset on value of type null
 			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
 			# https://github.com/keyclampstore-com/m/issues/5
-			$om = OM::getInstance()->get(S::class); /** @var OM $om */
+			$s = OM::getInstance()->get(S::class); /** @var S $s */
 			/** @var \Magento\Payment\Model\Cart\SalesModel\Quote $m */
 			$m = $c->getSalesModel();
 			/** @var \Magento\Quote\Model\Quote $q */
