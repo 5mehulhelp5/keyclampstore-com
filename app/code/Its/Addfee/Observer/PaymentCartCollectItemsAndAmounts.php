@@ -22,8 +22,7 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
 			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
 			# https://github.com/keyclampstore-com/m/issues/5
 			$s = OM::getInstance()->get(S::class); /** @var S $s */
-			/** @var \Magento\Quote\Model\Quote $q */
-			$q = $s->getQuote();
+			$q = $s->getQuote(); /** @var Q $q */
 			if ($q['fee']) {
 				$c->addCustomItem('Powdercoating Fee', 1, $q['fee']);
 				/** @used-by \Magento\Paypal\Model\Cart::_importItemsFromSalesModel() */
