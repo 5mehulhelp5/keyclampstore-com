@@ -2,12 +2,9 @@
 namespace Its\Addfee\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Store\Model\StoreManagerInterface;
-/**
- * Add Weee item to Payment Cart amount.
- */
+use Magento\Checkout\Model\Session as S;
+use Magento\Framework\App\ObjectManager as OM;
 class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
-
     /**
 	 * 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
 	 * 1) "Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4
@@ -19,6 +16,11 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
         /** @var \Magento\Payment\Model\Cart $c */
         $c = $observer->getEvent()->getCart();
 		if ($c instanceof \Magento\Paypal\Model\Cart) {
+			# 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+			# «Trying to access array offset on value of type null
+			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
+			# https://github.com/keyclampstore-com/m/issues/5
+			$om = OM::getInstance()->get(S::class); /** @var OM $om */
 			/** @var \Magento\Payment\Model\Cart\SalesModel\Quote $m */
 			$m = $c->getSalesModel();
 			/** @var \Magento\Quote\Model\Quote $q */
