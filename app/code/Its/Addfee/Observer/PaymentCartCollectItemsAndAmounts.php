@@ -1,9 +1,10 @@
 <?php
 namespace Its\Addfee\Observer;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Checkout\Model\Session as S;
 use Magento\Framework\App\ObjectManager as OM;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Quote\Model\Quote as Q;
 class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
     /**
 	 * 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
@@ -21,10 +22,8 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
 			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
 			# https://github.com/keyclampstore-com/m/issues/5
 			$s = OM::getInstance()->get(S::class); /** @var S $s */
-			/** @var \Magento\Payment\Model\Cart\SalesModel\Quote $m */
-			$m = $c->getSalesModel();
 			/** @var \Magento\Quote\Model\Quote $q */
-			$q = $m->getTaxContainer()->getQuote();
+			$q = $s->getQuote();
 			if ($q['fee']) {
 				$c->addCustomItem('Powdercoating Fee', 1, $q['fee']);
 				/** @used-by \Magento\Paypal\Model\Cart::_importItemsFromSalesModel() */
