@@ -1,14 +1,13 @@
 <?php
 namespace Its\Addfee\Observer;
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Quote\Model\Quote as Q;
 use Magento\Quote\Model\Quote\Address\Total as T;
 class ChangeTaxTotal implements ObserverInterface {
     function execute(Observer $observer) {
         $t = $observer->getData('total'); /** @var T $t */
-		/** @var \Magento\Quote\Model\Quote $q */
-		$q = $observer->getData('quote');
-        //make sure tax value exist
+		$q = $observer->getData('quote'); /** @var Q $q */
 		if ($t->getAppliedTaxes()) {
 			$tax = $q['fee_tax'];
 			if ($tax) {
