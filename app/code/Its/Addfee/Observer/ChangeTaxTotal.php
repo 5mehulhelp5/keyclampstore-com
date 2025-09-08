@@ -9,8 +9,7 @@ class ChangeTaxTotal implements ObserverInterface {
         $t = $observer->getData('total'); /** @var T $t */
 		$q = $observer->getData('quote'); /** @var Q $q */
 		if ($t->getAppliedTaxes()) {
-			$tax = $q['fee_tax'];
-			if ($tax) {
+			if ($tax = $q['fee_tax']) {
 				$t->addTotalAmount('tax', $tax);
 				$t->addBaseTotalAmount('tax', $tax);
 				$t->setGrandTotal($t->getGrandTotal() + $tax);
