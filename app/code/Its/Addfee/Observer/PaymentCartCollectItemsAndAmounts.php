@@ -9,8 +9,9 @@ use Magento\Store\Model\StoreManagerInterface;
 class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
 
     /**
-     * Add FPT amount as custom item to payment cart totals.
-     *
+	 * 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+	 * 1) "Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4
+	 * 2) `payment_cart_collect_items_and_amounts`
      * @param Observer $observer
      * @return void
      */
@@ -27,7 +28,6 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
 				/** @used-by \Magento\Paypal\Model\Cart::_importItemsFromSalesModel() */
 				$q->setBaseTaxAmount($q->getBaseTaxAmount() + $q['fee_tax']);
 			}
-			$v = true;
 		}
     }
 }
