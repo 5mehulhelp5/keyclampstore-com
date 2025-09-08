@@ -4,6 +4,7 @@ use Magento\Checkout\Model\Session as S;
 use Magento\Framework\App\ObjectManager as OM;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Paypal\Model\Cart as C;
 use Magento\Quote\Model\Quote as Q;
 class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
     /**
@@ -14,9 +15,8 @@ class PaymentCartCollectItemsAndAmounts implements ObserverInterface {
      * @return void
      */
     function execute(Observer $observer) {
-        /** @var \Magento\Payment\Model\Cart $c */
-        $c = $observer->getEvent()->getCart();
-		if ($c instanceof \Magento\Paypal\Model\Cart) {
+        $c = $observer->getEvent()->getCart();  /** @var C $c */
+		if ($c instanceof C) {
 			# 2025-09-08 Dmitrii Fediuk https://upwork.com/fl/mage2pro
 			# 1) «Trying to access array offset on value of type null
 			# in app/code/Its/Addfee/Observer/PaymentCartCollectItemsAndAmounts.php on line 25»:
