@@ -18,7 +18,6 @@
         }
     },
     "require": {
-        "baldwin/magento2-module-csp-shim": "v1.x-dev",
         "bsscommerce/custom-options-package": "^1.0",
         "bsscommerce/gallery": "^1.1",
         "bsscommerce/product-label": "^1.1",
