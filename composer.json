@@ -51,7 +51,7 @@
     "require-dev": {
         "allure-framework/allure-phpunit": "^3.1",
 		"carlos-mg89/oauth": "^0.8.17",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
         "dg/bypass-finals": "^1.4",
         "friendsofphp/php-cs-fixer": "^3.22",
         "lusitanian/oauth": "^0.8",
