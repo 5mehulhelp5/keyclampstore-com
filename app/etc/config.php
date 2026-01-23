@@ -359,6 +359,7 @@ return [
         'HS_All' => 1,
         'Iazel_RegenProductUrl' => 1,
         'Its_Addfee' => 1,
+		'Local_AreaBoot' => 0,
         'MageArray_Formulaprice' => 1,
         'MageMojo_Cron' => 1,
         'MageWorx_GeoIP' => 1,
