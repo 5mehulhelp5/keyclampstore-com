@@ -25,7 +25,7 @@
         "cweagans/composer-patches": "^1.7",
         "datafeedwatch/dfwconnector-magento2": "dev-master",
         "firebase/php-jwt": "^6.3",
-        "fooman/emailattachments-m2": "^3.0",
+        "fooman/emailattachments-m2": "*",
         "fooman/sameorderinvoicenumber-m2": "^3.0",
         "laminas/laminas-log": "^2.13",
         "magefan/module-seo-extra": "^2.5.1",
