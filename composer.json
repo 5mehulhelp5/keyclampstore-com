@@ -10,11 +10,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+			"php-http/discovery": true,
             "cweagans/composer-patches": true,
-            "laminas/laminas-dependency-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "magento/*": true,
-			"php-http/discovery": true
+            "laminas/laminas-dependency-plugin": true,
+            "magento/*": true
         }
     },
     "require": {
