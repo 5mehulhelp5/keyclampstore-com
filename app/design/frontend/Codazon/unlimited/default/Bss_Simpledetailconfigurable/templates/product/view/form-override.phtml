@@ -1,0 +1,80 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Simpledetailconfigurable
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * Product view template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+<?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
+<?php $_sdcpHelper = $this->helper(Bss\Simpledetailconfigurable\Helper\ModuleConfig::class); ?>
+<?php $_product = $block->getProduct();
+    $productId = $_product->getId();
+    if ($block->getData("viewModelPrice")) {
+        $productId = $block->getData("viewModelPrice")->getProduct($_product)->getId();
+}
+$showFormTag = true;
+if ($wrapper = $this->getLayout()->getBlock('product.form.wrapper')) {
+    $filterTypes = ['bundle', 'downloadable'];
+    $showFormTag = !$wrapper->getData('show_form_tag');
+}
+?>
+<?php $isEnableMultipart = $_product->getOptions() || $_sdcpHelper->isModuleEnable() ?>
+
+<div class="product-add-form">
+    <?php if ($showFormTag) : ?>
+    <form data-product-sku="<?= $block->escapeHtmlAttr($_product->getSku()) ?>" action="<?= $block->escapeUrl($block->getSubmitUrl($_product)) ?>" method="post"
+          id="product_addtocart_form" <?php if ($isEnableMultipart): ?> enctype="multipart/form-data"<?php endif; ?>>
+    <?php endif ?>
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>" />
+        <input type="hidden" name="selected_configurable_option" value="" />
+        <input type="hidden" name="related_product" id="related-products-field" value="" />
+        <input type="hidden" name="item"  value="<?= (int)$block->getRequest()->getParam('id') ?>" />
+        <?= $block->getBlockHtml('formkey') ?>
+        <?= $block->getChildHtml('form_top') ?>
+        <?php if ($wrapper) : ?>
+        <?php echo $block->getChildHtml('form_middle'); ?>
+        <?php else : ?>
+        <?php if (!$block->hasOptions()): ?>
+            <?= $block->getChildHtml('product_info_form_content') ?>
+        <?php else: ?>
+            <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1'): ?>
+                <?= $block->getChildChildHtml('options_container') ?>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'): ?>
+            <?= $block->getChildChildHtml('options_container') ?>
+        <?php endif; ?>
+        <?php endif ?>
+        <?= $block->getChildHtml('form_bottom') ?>
+    <?php if ($showFormTag) : ?>
+    </form>
+    <?php endif ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "[data-role=priceBox][data-price-box=product-id-<?= $block->escapeHtml($productId) ?>]": {
+            "priceBox": {
+                "priceConfig":  <?= /* @noEscape */ $block->getJsonConfig() ?>
+    }
+}
+}
+</script>
