@@ -13,7 +13,8 @@
             "cweagans/composer-patches": true,
             "laminas/laminas-dependency-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "magento/*": true
+            "magento/*": true,
+			"php-http/discovery": true
         }
     },
     "require": {
