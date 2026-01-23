@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Earliest public entry point for storefront requests -->
+    <type name="Magento\Framework\App\Http">
+        <plugin name="local_http_area_guard"
+                type="Local\AreaBoot\Plugin\HttpAreaGuard"
+                sortOrder="0"/>
+    </type>
+
+    <!-- Belt and braces at dispatch -->
+    <type name="Magento\Framework\App\FrontController">
+        <plugin name="local_area_boot_guard"
+                type="Local\AreaBoot\Plugin\FrontControllerAreaGuard"
+                sortOrder="-1000"/>
+    </type>
+
+    <!-- OPTIONAL: uncomment to target a specific noisy controller
+    <type name="Codazon\ThemeLayoutPro\Controller\Ajax\Captcha">
+        <plugin name="local_cdz_captcha_area_guard"
+                type="Local\AreaBoot\Plugin\ControllerAreaGuard"
+                sortOrder="-1000"/>
+    </type>
+    <type name="Meta\Conversion\Controller\Pixel\Tracker">
+        <plugin name="local_meta_tracker_area_guard"
+                type="Local\AreaBoot\Plugin\ControllerAreaGuard"
+                sortOrder="-1000"/>
+    </type>
+    -->
+</config>
