@@ -80,7 +80,7 @@
         "exclude-from-classmap": [
             "**/dev/**",
             "**/update/**",
-            "**/Test/**"
+            "*/*/Test/**/*Test"
         ]
     },
     "autoload-dev": {
