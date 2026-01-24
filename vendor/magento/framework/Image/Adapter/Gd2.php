@@ -93,15 +93,7 @@ class Gd2 extends AbstractAdapter
     {
         $allowed_schemes = ['ftp', 'ftps', 'http', 'https'];
         $url = parse_url($filename);
-		# 2025-09-01 Dmitrii Fediuk https://upwork.com/fl/mage2pro
-		# 1) "Adapt the website to Windows-based servers": https://github.com/keyclampstore-com/m/issues/2
-		# 2) "How to fix catalog images in Magento ≥ 2.3.5 in Windows?" https://mage2.pro/t/6210
-        if (
-			$url
-			&& isset($url['scheme'])
-			&& !in_array($url['scheme'], $allowed_schemes)
-			&& !file_exists($filename)
-		) {
+        if ($url && isset($url['scheme']) && !in_array($url['scheme'], $allowed_schemes)) {
             return false;
         }
 
@@ -351,9 +343,14 @@ class Gd2 extends AbstractAdapter
         // fill image with indexed non-alpha transparency
         $transparentColor = false;
 
-        if ($transparentIndex >= 0 && $transparentIndex <= imagecolorstotal($this->_imageHandler)) {
-            list($red, $green, $blue) = array_values(imagecolorsforindex($this->_imageHandler, $transparentIndex));
-            $transparentColor = imagecolorallocate($imageResourceTo, (int) $red, (int) $green, (int) $blue);
+        if ($transparentIndex >= 0 && $transparentIndex < imagecolorstotal($this->_imageHandler)) {
+            try {
+                $colorsForIndex = imagecolorsforindex($this->_imageHandler, $transparentIndex);
+                list($red, $green, $blue) = array_values($colorsForIndex);
+                $transparentColor = imagecolorallocate($imageResourceTo, (int) $red, (int) $green, (int) $blue);
+            // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock.DetectedCatch
+            } catch (\ValueError $e) {
+            }
         }
         if (false === $transparentColor) {
             throw new \InvalidArgumentException('Failed to allocate transparent color for image.');
@@ -395,7 +392,7 @@ class Gd2 extends AbstractAdapter
         if (IMAGETYPE_GIF === $fileType || IMAGETYPE_PNG === $fileType) {
             // check for specific transparent color
             $transparentIndex = imagecolortransparent($imageResource);
-            if ($transparentIndex >= 0) {
+            if ($transparentIndex >= 0 && $transparentIndex < imagecolorstotal($imageResource)) {
                 return $transparentIndex;
             } elseif (IMAGETYPE_PNG === $fileType) {
                 // assume that truecolor PNG has transparency
@@ -546,8 +543,8 @@ class Gd2 extends AbstractAdapter
         } elseif ($this->getWatermarkPosition() == self::POSITION_STRETCH) {
             $watermark = $this->createWaterMark($watermark, $this->_imageSrcWidth, $this->_imageSrcHeight);
         } elseif ($this->getWatermarkPosition() == self::POSITION_CENTER) {
-            $positionX = $this->_imageSrcWidth / 2 - imagesx($watermark) / 2;
-            $positionY = $this->_imageSrcHeight / 2 - imagesy($watermark) / 2;
+            $positionX = (int) ($this->_imageSrcWidth / 2 - imagesx($watermark) / 2);
+            $positionY = (int) ($this->_imageSrcHeight / 2 - imagesy($watermark) / 2);
             $this->imagecopymergeWithAlphaFix(
                 $this->_imageHandler,
                 $watermark,

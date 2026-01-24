@@ -49,27 +49,26 @@ $relativePath = $request->getPathInfo();
 if (file_exists($configCacheFile) && is_readable($configCacheFile)) {
     $config = json_decode(file_get_contents($configCacheFile), true);
 
-    //checking update time
-    if (filemtime($configCacheFile) + $config['update_time'] > time()) {
+    // Checking update time
+    if (isset($config['update_time'], $config['media_directory'], $config['allowed_resources'])
+        && filemtime($configCacheFile) + $config['update_time'] > time()
+    ) {
         $mediaDirectory = $config['media_directory'];
         $allowedResources = $config['allowed_resources'];
 
         // Serve file if it's materialized
         if ($mediaDirectory) {
-			# 2025-09-01 Dmitrii Fediuk https://upwork.com/fl/mage2pro
-			# 1) "Adapt the website to Windows-based servers": https://github.com/keyclampstore-com/m/issues/2
-			# 2) "How to adapt `pub/get.php` to Windows in Magento ≥ 2.4.2?" https://mage2.pro/t/6415
-            $fileAbsolutePath = str_replace('\\', '/', __DIR__) . '/' . $relativePath;
+            $fileAbsolutePath = __DIR__ . '/' . $relativePath;
             $fileRelativePath = str_replace(rtrim($mediaDirectory, '/') . '/', '', $fileAbsolutePath);
 
             if (!$isAllowed($fileRelativePath, $allowedResources)) {
-                require_once 'errors/404.php';
+                require 'errors/404.php';
                 exit;
             }
 
             if (is_readable($fileAbsolutePath)) {
                 if (is_dir($fileAbsolutePath)) {
-                    require_once 'errors/404.php';
+                    require 'errors/404.php';
                     exit;
                 }
 
