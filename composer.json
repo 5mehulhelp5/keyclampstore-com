@@ -44,7 +44,7 @@
         "stripe/stripe-payments": "4.4.*",
         "trust-payments-limited/module-trust": "^4.0",
         "wyomind/simplegoogleshopping": "^14.4",
-        "yotpo/module-review": "^3.3"
+        "yotpo/module-yotpo-reviews": "*"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "^3.1",
