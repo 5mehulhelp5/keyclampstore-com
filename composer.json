@@ -93,7 +93,7 @@
         }
     },
     "version": "2.4.8-p3",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "repositories": {
         "Magento": {
 			"canonical": false,
