@@ -21,7 +21,14 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Zend\ServiceManager\ServiceLocatorInterface" type="Zend\ServiceManager\ServiceManager"/>
+<!-- 2026-01-28 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+1) "`Mageplaza_SecurityPro`: «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
+as "Zend\ServiceManager\ServiceManager", but the latter does not exist» on `bin/magento setup:di:compile"
+https://github.com/keyclampstore-com/m/issues/19
+2) How did I fix «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
+as "Zend\ServiceManager\ServiceManager", but the latter does not exist» on `bin/magento setup:di:compile`
+ for `Mageplaza_SecurityPro` in Magento 2.4.8-p3? https://mage2.pro/t/6529 -->
+    <preference for="Laminas\ServiceManager\ServiceLocatorInterface" type="Laminas\ServiceManager\ServiceManager"/>
     <preference for="Mageplaza\Security\Block\Adminhtml\Checklist" type="Mageplaza\SecurityPro\Block\Adminhtml\Checklist"/>
 
     <type name="\Magento\Backend\App\AbstractAction">
