@@ -22,13 +22,23 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 <!-- 2026-01-28 Dmitrii Fediuk https://upwork.com/fl/mage2pro
-1) "`Mageplaza_SecurityPro`: «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
+1.1) "`Mageplaza_SecurityPro`: «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
 as "Zend\ServiceManager\ServiceManager", but the latter does not exist» on `bin/magento setup:di:compile"
 https://github.com/keyclampstore-com/m/issues/19
-2) How did I fix «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
+1.2) How did I fix «Preference declared for "Zend\ServiceManager\ServiceLocatorInterface"
 as "Zend\ServiceManager\ServiceManager", but the latter does not exist» on `bin/magento setup:di:compile`
- for `Mageplaza_SecurityPro` in Magento 2.4.8-p3? https://mage2.pro/t/6529 -->
-    <preference for="Laminas\ServiceManager\ServiceLocatorInterface" type="Laminas\ServiceManager\ServiceManager"/>
+ for `Mageplaza_SecurityPro` in Magento 2.4.8-p3? https://mage2.pro/t/6529
+2.1) "Preference declared for "Laminas\ServiceManager\ServiceLocatorInterface"
+as "Laminas\ServiceManager\ServiceManager",
+but the latter has not been included in dependency injection compilation":
+https://github.com/keyclampstore-com/m/issues/20
+2.2) How did I fix «Preference declared for "Laminas\ServiceManager\ServiceLocatorInterface"
+as "Laminas\ServiceManager\ServiceManager",
+but the latter has not been included in dependency injection compilation»?:
+https://mage2.pro/t/6530
+2.3) `Laminas\ServiceManager\ServiceManager` is the default implementation
+of `Laminas\ServiceManager\ServiceLocatorInterface`, so the `preference` declaration is unnecessary:
+https://github.com/laminas/laminas-servicemanager/blob/3.24.x/src/ServiceManager.php#L42-L42 -->
     <preference for="Mageplaza\Security\Block\Adminhtml\Checklist" type="Mageplaza\SecurityPro\Block\Adminhtml\Checklist"/>
 
     <type name="\Magento\Backend\App\AbstractAction">
