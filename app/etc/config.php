@@ -457,6 +457,7 @@ return [
         'WebShopApps_MatrixRate' => 1,
         'Wyomind_Framework' => 1,
         'Wyomind_SimpleGoogleShopping' => 1,
-        'Yotpo_Yotpo' => 1
+        'Yotpo_Core' => 1,
+        'Yotpo_Reviews' => 1
     ]
 ];
