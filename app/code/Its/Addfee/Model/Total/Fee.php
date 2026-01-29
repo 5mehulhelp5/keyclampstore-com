@@ -148,7 +148,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
 		
 		//$discontArr = explode("|","200:5|500:10|1000:20");
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-		$discontArr = explode("|",$this->scopeConfigInterface->getValue("itsfee/general/powdercotaingprices", $storeScope));
+		$discontArr = explode("|", df_cfg("itsfee/general/powdercotaingprices", $storeScope));
 		
 		$finalDiscPerce = 0;
 		foreach($discontArr as $discArr){
