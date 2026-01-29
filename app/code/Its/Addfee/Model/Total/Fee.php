@@ -13,14 +13,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
      * @return $this
      */
     protected $quoteValidator = null; 
-
-    function __construct(
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface
-	)
-    {
-		$this->scopeConfigInterface = $scopeConfigInterface;
-    }
-
+	
     /**
      * @return $this
      */
