@@ -15,12 +15,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
     protected $quoteValidator = null; 
 
     function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator,
-								\Magento\Checkout\Model\Session $checkoutSession,
 								\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface,
 								\Magento\Catalog\Model\Product $catalogProduct)
     {
         $this->quoteValidator = $quoteValidator;
-		$this->checkoutSession = $checkoutSession;
 		$this->catalogProduct = $catalogProduct;
 		$this->scopeConfigInterface = $scopeConfigInterface;
     }
@@ -91,11 +89,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
 		$discount_percentage_flag = 0;
 		
 		$isPowederCoatingCart = 0; 
-		
-		/*if($this->checkoutSession->getSubscriptionIdData()){
-			$discount_percentage_flag = 1;
-		}*/
-		//$subscription_id_auto_order_generate = $this->checkoutSession->getSubscriptionIdData();
+
 		foreach($items as $item){
 			
 			if(in_array($item->getSku(),$powercoatingItems)){
