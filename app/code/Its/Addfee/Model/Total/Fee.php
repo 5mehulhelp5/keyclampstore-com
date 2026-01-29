@@ -1,10 +1,7 @@
 <?php
 namespace Its\Addfee\Model\Total;
-
-class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
-{
+class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
 	public $additionalTaxAmt = 20;
-
 	public $colorcode;
 
    /**
@@ -66,7 +63,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 		}
         return $this;
     }
-	
+
 	/**
 	 * 2025-09-02 Dmitrii Fediuk https://upwork.com/fl/mage2pro
 	 * "Refactor the `Its_Addfee` module": https://github.com/keyclampstore-com/m/issues/4
