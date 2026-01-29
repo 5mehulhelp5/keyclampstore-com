@@ -98,7 +98,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
 			}
 			
 			$buyInfo = $item->getBuyRequest();			
-			$_product = $this->catalogProduct->load($item->getProduct()->getId());
+			$_product = df_product($item->getProduct()->getId());
 			
 			if($_product->getPowder_coating_available()){
 				/* start - get custom option powdercoating price */
