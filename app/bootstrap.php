@@ -7,7 +7,10 @@
 /**
  * Environment initialization
  */
-error_reporting(E_ALL);
+# 2026-01-29 Dmitrii Fediuk https://upwork.com/fl/mage2pro
+# "Disable `E_DEPRECATED` PHP warnings as the project is fixed priced":
+# https://github.com/keyclampstore-com/m/issues/27
+error_reporting(E_ALL ^ E_DEPRECATED);
 if (in_array('phar', \stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
 }
