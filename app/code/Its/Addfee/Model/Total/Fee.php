@@ -13,7 +13,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal {
      * @return $this
      */
     protected $quoteValidator = null; 
-	
+
     /**
      * @return $this
      */
