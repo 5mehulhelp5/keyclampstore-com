@@ -44,7 +44,7 @@
         "stape/gtm-server-side-magento-module": "^1.0",
         "stripe/stripe-payments": "*",
         "trust-payments-limited/module-trust": "^4.0",
-        "wyomind/simplegoogleshopping": "^14.4",
+        "wyomind/simplegoogleshopping": "*",
         "yotpo/module-yotpo-reviews": "*"
     },
     "require-dev": {
